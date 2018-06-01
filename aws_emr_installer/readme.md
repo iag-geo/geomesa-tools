@@ -1,4 +1,13 @@
+# AWS Elastic Map Reduce Installer
+Installs GeoMesa on EMR for use with S3 and Spark
 
+## The Stack
+
+- Hadoop + YARN
+- Hive
+- Spark + Pyspark
+- GeoMesa FileStore
+- GeoMesa Spark + PySpark
 
 
 
