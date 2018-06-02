@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# RUN THIS FILE ON YOUR MACHINE
+# RUN THIS FILE ON YOUR MacOS OR LINUX MACHINE
 
 # set your IP address
 ip_address="<your EMR master server IP address>"
@@ -21,4 +21,9 @@ scp -i ${pem_file} ${file_dir}/master_server_files/gdelt.conf hadoop@${ip_addres
 scp -i ${pem_file} ${file_dir}/master_server_files/install-geomesa.sh hadoop@${ip_address}:~/
 
 # ssh into master EMR server
-ssh -i ${pem_file} hadoop@${ip_address}
+ssh -i ${pem_file} hadoop@${ip_address} << EOF
+
+    # install GeoMesa and it's dependencies (takes 8-10 mins)
+    . ~/install-geomesa.sh
+
+EOF
