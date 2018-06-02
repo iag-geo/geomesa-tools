@@ -1,14 +1,32 @@
 # AWS Elastic Map Reduce Installer
-Installs GeoMesa on EMR for use with S3 and Spark
+A quickstart to get GeoMesa running on AWS EMR
 
-## The Stack
+Contains install scripts as well as a Python script for loading & querying [GDELT](https://www.gdeltproject.org/) data in S3 using Spark
 
-- Hadoop + YARN
-- Hive
-- Spark + Pyspark
+### Why EMR?
+EMR takes all the work out of of launching a cluster with Hadoop, Hive and Spark.
+ 
+All the software is installed and configured to work with your S3 buckets, including encrypted data.
+
+### Why S3 and Spark?
+
+Whilst using HDFS can be faster, it's more costly and less resilient than S3. S3 also removes the need for an additional data store such as Accumulo and HBase
+
+Spark enables access to your data through SQL, and is generally faster than Hive. It also gives you programmatic access using Python and Scala.
+
+### The Stack
+
+This quickstart will deploy GeoMesa using the following stack
+
+- EMRFS using AWS S3
+- Hadoop with YARN & Hive
+- Spark with Pyspark
 - GeoMesa FileStore
-- GeoMesa Spark + PySpark
+- GeoMesa Spark & PySpark
 
+## Quickstart
+
+### 1. 
 
 
 You'll need to have already setup an EC2 key pair as well as the EMR_Default and EMR_EC2_Default roles
