@@ -1,5 +1,5 @@
 # GeoMesa on EMR, S3, Spark & Python
-Gets GeoMesa running on AWS Elastic Map Reduce.
+A simplified way to get GeoMesa running on AWS Elastic Map Reduce.
 
 Contains install scripts and a Python script for loading & querying [GDELT](https://www.gdeltproject.org/) data in S3 using Spark.
 
