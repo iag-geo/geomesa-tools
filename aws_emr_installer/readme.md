@@ -35,7 +35,7 @@ Log into the AWS Console to setup security and create a EMR cluster with Hadoop,
 1. Click on **Go to advanced options**
 1. Choose the *emr-5.12.1* release
 1. Select *Hadoop*, *Hive* and *Spark* to install, click **next**
-1. Leave the number of core servers at 2 (unless you want to run it a bit faster), click **next**
+1. Leave the number of Core servers at 2 (unless you want to run it a bit faster), click **next**
 1. Give your cluster a meaningful name like *Geomesa Test*, click **next**
 1. Select your key pair & create the cluster
 1. Wait several minutes for the cluster to start
@@ -57,8 +57,8 @@ The GeoMesa install script is for AWS Linux (EMR's default)
 ## Step 2 - Install GeoMesa
 **Note:** this step is based on a Bash script. If you're running Windows, the simplest workaround is to alter the `copy_files_and_login.sh` to run in PuTTY.
 
-1. In the EMR Console - confirm the master and core servers are running :
-1. Edit `copy_files_and_login.sh` to set the IP address of the EMR master server and your key pair's pem file
+1. In the EMR Console - confirm the Master and Core servers are running :
+1. Edit `copy_files_and_login.sh` to set the IP address of the EMR Master server and your key pair's pem file
 1. Open Terminal (i.e. your Bash/Shell command line tool)
 1. Run the `copy_files_and_login.sh` script
 1. Wait 8-10 mins and check the on-screen log for success
@@ -70,6 +70,8 @@ Alter the command below for the S3 bucket you want to store the GeoMesa format d
 `spark-submit \
 --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
 geomesa_convert.py --target-s3-bucket <your_output_s3_bucket>`
+
+Run the command!
 
 If all goes well - the script will:
 1. Load the GDELT data from S3
