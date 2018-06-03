@@ -1,30 +1,28 @@
 # GeoMesa on EMR, S3, Spark & Python
-A simplified way to get GeoMesa running on AWS Elastic Map Reduce.
+A simplified way to get GeoMesa running using AWS Elastic Map Reduce.
 
 Contains install scripts and a Python script for loading, converting & querying [GDELT](https://www.gdeltproject.org/) data in S3 using GeoMesa on Spark.
 
-### Why EMR?
-EMR takes a lot of the work out of of launching a cluster with Hadoop, Hive and Spark
- 
-As a bonus - the platform is setup to use S3 as your data store.
+## The Platform
 
-### Why Spark & S3?
-Spark enables access to your data through the simplicity of SQL; as well as programmatic access using Python and Scala.
-
-HDFS can be faster than S3, however it's more costly and less resilient. S3 also removes the need for an additional data store like Accumulo or HBase
-
-### Why Python instead of Scala?
-
-Python is easier to code & deploy and has a massive variety of modules to help you build your data & analytics platform. 
-
-### The Stack
-This guide and the code will deploy GeoMesa with the following stack:
+This guide & code will deploy the following stack:
 
 - EMRFS using AWS S3
 - Hadoop with YARN & Hive
 - Spark with Pyspark
 - GeoMesa FileStore
 - GeoMesa Spark & PySpark
+
+#### Why EMR & S3?
+EMR makes launching a cluster with Hadoop, Hive & Spark straightforward. It also makes it simple to use S3 as a data store.
+
+S3 removes the need for an additional data store like Accumulo or HBase. Whilst HDFS can be faster than S3, it's more costly and less persistent.
+
+#### Why Spark?
+Spark enables big data analytics through the simplicity of SQL; as well as programmatic access using Python, R and Scala.
+
+#### Why Python instead of Scala?
+Python is easier to code & deploy and has a massive variety of modules to help you build your data & analytics platform. 
 
 ## Install Process
 
@@ -40,42 +38,42 @@ Log into the AWS Console to setup security and create a EMR cluster with Hadoop,
 1. Select your key pair & click **Create cluster**
 1. Wait several minutes for the cluster to start
 1. While you're waiting - get the public IP address of the Master server
-1. Go back to the EC2 Console and edit the security group of the Master server to allow SSH access from your machine
+1. In the EC2 Console - edit the security group of the Master server to allow SSH access from your machine
+1. Refresh the EMR Console to confirm the Master and Core servers are running
 
 ### Important
 If you created a key pair, download it and...
-- On MacOS: change the file's permissions using `chmod og-rwx mykeypair.pem`
+- On MacOS or Linux: change the file's permissions using `chmod og-rwx mykeypair.pem`
 - On Windows: import it using PuTTYgen. See the [PuTTY instructions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html) for adding a key.
 
 Creating an EMR cluster requires 2 AWS roles:
 - If you have the right to create roles: they should be created for you when you create the cluster
 - If not: get your AWS admins to create the *EMR_Default* and *EMR_EC2_Default* roles for you
-- If you want to use autoscaling, you'll need a third role: *EMR_AutoScaling_DefaultRole*
+- If you want the cluster to autoscale, you'll need a third role: *EMR_AutoScaling_DefaultRole*
 
 The GeoMesa install script is for AWS Linux (EMR's default)
 - The script won't work if you choose non-Fedora AMIs for your cluster.
 
-## Step 2 - Install GeoMesa
-**Note:** this step is based on a Bash script. If you're running Windows, the simplest workaround is to alter the `copy_files_and_login.sh` file to run in PuTTY.
+### Step 2 - Install GeoMesa
 
-1. In the EMR Console - confirm the Master and Core servers are running
-1. Edit `copy_files_and_login.sh` to set the IP address of your EMR Master server and your key pair's pem file
-1. Open Terminal (i.e. your Bash/Shell command line tool)
-1. Run the `copy_files_and_login.sh` script
+On MacOS or Linux: 
+1. Edit *copy_files_and_login.sh* to set the IP address of your EMR Master server and your key pair's pem file
+1. Open Terminal, iTerm2, Emacs, etc... and run *copy_files_and_login.sh*
 1. Wait 8-10 mins and check the on-screen log for success
 
-## Step 3 - Do something with GeoMesa
+On Windows:
+1. Use PuTTy Secure Copy (PSCP) to copy the 3 *master_server_files* files to the home directory on the EMR Master server. Connect using the *hadoop* user, not *ec2-user*
+1. Use PuTTY to connect to the EMR Master Server using SSH
+1. Run `. ~/install-geomesa.sh` on the EMR Master Server
+1. Wait 8-10 mins and check the on-screen log for success
 
-Alter the command below for the S3 bucket you want to store the GeoMesa format data in:
+### Step 3 - Do something with GeoMesa
 
-`spark-submit \
---jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
-geomesa_convert.py --target-s3-bucket <your_output_s3_bucket>`
-
-Run the command!
+1. Alter the command below for the S3 bucket you want to output the GeoMesa data to: `spark-submit --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar geomesa_convert.py --target-s3-bucket <your_output_s3_bucket>`
+1. Run the command!
 
 If all goes well - the script will:
 1. Load the GDELT data from S3
-1. Filter it to Australia
+1. Filter it to Australia using coordinates
 1. Output it as GeoMesa Parquet formatted data
 1. Run a spatial query on the GeoMesa dataset and show the results on screen
