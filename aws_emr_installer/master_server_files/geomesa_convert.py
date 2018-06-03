@@ -3,14 +3,17 @@
 
 Purpose: Takes GDELT data on S3, filters it & converts it to GeoMesa parquet format using Pyspark on an AWS EMR instance
 
-Author:  Hugh Saalmans
-
-Created: 31/05/2018
-
 Workflow:
   1. create Spark dataframe from delimited text files on S3
   2. filter data using SparkSQL and output to temp HDFS directory as delimited text
   3. convert temp HDFS data into GeoMesa parquet format and output to S3
+
+Organisation: IAG
+Author: Hugh Saalmans, Location Engineering Director
+GitHub: iag-geo
+
+Copyright:
+ - Code is copyright IAG - licensed under an Apache License, version 2.0
 
 Notes:
   - Code loads the data one day at a time, this is for testing on small EMR instances (e.g. 1 master, 2 core servers)
