@@ -38,7 +38,7 @@ Log into the AWS Console to setup security and create a EMR cluster with Hadoop,
 1. Select your EC2 key pair & click **Create cluster**
 1. *Wait several minutes for the cluster to start*
 1. Get the public IP address of the master server (click **Hardware** and then the master server's ID)
-1. In the EC2 Console - edit the security group of the master server to [allow SSH access](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html) from your machine
+1. In the EC2 Console - edit the security group of the master server to [allow SSH access](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html) from your local machine
 1. Refresh the EMR Console to confirm the master and core servers are running
 
 ### Important
@@ -57,8 +57,8 @@ The GeoMesa install script is for AWS Linux servers (EMR's default)
 ### Step 2 - Install GeoMesa
 
 On MacOS or Linux: 
-1. Edit *copy_files_and_login.sh* to set the IP address of the master server and the full path to your EC2 key pair's pem file
-1. Open your preferred command line tool and run *copy_files_and_login.sh*
+1. Edit *copy_files_and_login.sh* to set the IP address of the master server and the full path to your EC2 key pair's pem file on your local machine
+1. Open your preferred command line tool and run *copy_files_and_login.sh* to copy the required files and log into the master server
 1. Run `. ~/install-geomesa.sh`
 1. Wait 8-10 mins and check the on-screen log for success
 
