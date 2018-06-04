@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Purpose: Installs GeoMesa FileSystem Datastore and GeoMesa Spark on AWS Elastic Map Reduce
+#
+# Organisation: IAG
+# Author: Hugh Saalmans, Product Innovation
+# GitHub: iag-geo
+#
+# Copyright:
+#  - Code is copyright IAG - licensed under an Apache License, version 2.0
+#
+#----------------------------------------------------------------------------------------------------------------------
+
 # record how long this script takes (8-10 mins usually)
 SECONDS=0
 

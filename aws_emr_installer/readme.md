@@ -59,6 +59,7 @@ The GeoMesa install script is for AWS Linux (EMR's default)
 On MacOS or Linux: 
 1. Edit *copy_files_and_login.sh* to set the IP address of your EMR master server and the full path to your key pair's pem file
 1. Open your preferred command line tool and run *copy_files_and_login.sh*
+1. Run `. ~/install-geomesa.sh`
 1. Wait 8-10 mins and check the on-screen log for success
 
 On Windows:

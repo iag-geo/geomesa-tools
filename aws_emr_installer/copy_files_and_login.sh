@@ -2,12 +2,7 @@
 
 #----------------------------------------------------------------------------------------------------------------------
 #
-# Purpose: Installs GeoMesa FileSystem Datastore and GeoMesa Spark on AWS Elastic Map Reduce
-#
-# Workflow:
-#   1. copy required files to EMR master server
-#   2. login to master using SSH
-#   3. run the install script
+# Purpose: copies required file to the EMR master server and logs in via SSH
 #
 # Organisation: IAG
 # Author: Hugh Saalmans, Product Innovation
@@ -34,9 +29,4 @@ file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 scp -i ${pem_file} ${file_dir}/master_server_files/* hadoop@${ip_address}:~/
 
 # ssh into master EMR server
-ssh -i ${pem_file} hadoop@${ip_address} << EOF
-
-    # install GeoMesa and it's dependencies (takes 8-10 mins)
-    . ~/install-geomesa.sh
-
-EOF
+ssh -i ${pem_file} hadoop@${ip_address}
