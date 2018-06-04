@@ -43,9 +43,9 @@ source .bashrc
 sudo cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
 sudo sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g" $SPARK_HOME/conf/log4j.properties
 
-# download and install GeoMesa FileStore
+# download and install GeoMesa FileSystem Datastore
 echo "-------------------------------------------------------------------------"
-echo "Installing GeoMesa FileStore"
+echo "Installing GeoMesa FileSystem Datastore"
 echo "-------------------------------------------------------------------------"
 wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-$GEOMESA_VERSION/geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz"
 tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz

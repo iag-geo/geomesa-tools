@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 
-# RUN THIS FILE ON YOUR MacOS OR LINUX MACHINE
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Purpose: Installs GeoMesa FileSystem Datastore and GeoMesa Spark on AWS Elastic Map Reduce
+#
+# Workflow:
+#   1. copy required files to EMR master server
+#   2. login to master using SSH
+#   3. run the install script
+#
+# Organisation: IAG
+# Author: Hugh Saalmans, Product Innovation
+# GitHub: iag-geo
+#
+# Copyright:
+#  - Code is copyright IAG - licensed under an Apache License, version 2.0
+#
+#----------------------------------------------------------------------------------------------------------------------
 
 # set your IP address
 ip_address="<your EMR master server IP address>"
@@ -11,14 +27,11 @@ pem_file="<full path to your pem file>"
 # get this script's directory
 file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# copy Pyspark script
-scp -i ${pem_file} ${file_dir}/master_server_files/geomesa_convert.py hadoop@${ip_address}:~/
-
-# copy GeoMesa SimpleFeatureType and Converter definitions
-scp -i ${pem_file} ${file_dir}/master_server_files/gdelt.conf hadoop@${ip_address}:~/
-
-# copy GeoMesa FileStore & Spark install script
-scp -i ${pem_file} ${file_dir}/master_server_files/install-geomesa.sh hadoop@${ip_address}:~/
+# copy the following files to EMR master server
+#   geomesa_convert.py : Pyspark script to load, convert and query the data
+#   gdelt.conf         : GeoMesa SimpleFeatureType and Converter definitions for the data
+#   install-geomesa.sh : GeoMesa FileSystem Datastore & GeoMesa Spark install script
+scp -i ${pem_file} ${file_dir}/master_server_files/* hadoop@${ip_address}:~/
 
 # ssh into master EMR server
 ssh -i ${pem_file} hadoop@${ip_address} << EOF

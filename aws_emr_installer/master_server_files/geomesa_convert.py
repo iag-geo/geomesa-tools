@@ -1,7 +1,6 @@
-"""
------------------------------------------------------------------------------------------------------------------------
+""" -------------------------------------------------------------------------------------------------------------------
 
-Purpose: Takes GDELT data on S3, filters it & converts it to GeoMesa parquet format using Pyspark on an AWS EMR instance
+Purpose: Takes GDELT data on S3, filters it & converts it to GeoMesa Parquet using Pyspark on an AWS EMR instance
 
 Workflow:
   1. create Spark dataframe from delimited text files on S3
@@ -9,18 +8,17 @@ Workflow:
   3. convert temp HDFS data into GeoMesa parquet format and output to S3
 
 Organisation: IAG
-Author: Hugh Saalmans, Location Engineering Director
+Author: Hugh Saalmans, Product Innovation
 GitHub: iag-geo
 
 Copyright:
- - Code is copyright IAG - licensed under an Apache License, version 2.0
+  - Code is copyright IAG - licensed under an Apache License, version 2.0
 
 Notes:
-  - Code loads the data one day at a time, this is for testing on small EMR instances (e.g. 1 master, 2 core servers)
+  - Code loads the data one day at a time; for testing on small EMR instances (e.g. 1 master, 2 core servers)
   - Takes 3-4 mins per day of data on a 3 server cluster (1 master, 2 core servers)
 
------------------------------------------------------------------------------------------------------------------------
-"""
+------------------------------------------------------------------------------------------------------------------- """
 
 import argparse
 import datetime
@@ -53,9 +51,9 @@ def main():
     settings["geomesa_version"] = os.environ["GEOMESA_VERSION"]
     settings["geomesa_fs_home"] = os.environ["GEOMESA_FS_HOME"]
 
-    # -------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------------------
     # Edit these to taste (feel free to convert these to runtime arguments)
-    # -------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------------------
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
@@ -94,9 +92,9 @@ def main():
                            WHERE _c39 > -43.9 AND _c39 < -9.1
                            AND _c40 > 112.8 AND _c40 < 154.0""".format(settings["input_view"],)
 
-    # -------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------------------
 
-    # set path to GeoMesa FileStore Spark JAR
+    # set path to GeoMesa FileSystem Datastore Spark JAR
     settings["geomesa_fs_spark_jar"] = "{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
         .format(settings["geomesa_fs_home"], settings["geomesa_version"])
 
