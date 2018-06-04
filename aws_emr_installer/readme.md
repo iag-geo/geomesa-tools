@@ -16,7 +16,7 @@ This guide & code will deploy the following stack:
 #### Why EMR & S3?
 EMR makes launching a cluster with Hadoop, Hive & Spark straightforward. It also makes it simple to use S3 as a data store.
 
-S3 removes the need for an additional data store like Accumulo or HBase. S3 is also less costly and more persistent than HDFS, although HDFS can be faster.
+S3 removes the need for an additional data store like Accumulo or HBase. It's also less costly and more persistent than HDFS, although HDFS can be faster.
 
 #### Why Spark?
 Spark enables big data analytics through the simplicity of SQL; as well as programmatic access using Python, R and Scala.
