@@ -95,7 +95,7 @@ cp -R /home/hadoop/geomesa-geomesa_2.11-$GEOMESA_VERSION/build ./build/
 echo "-------------------------------------------------------------------------"
 echo "Building GeoMesa Spark"
 echo "-------------------------------------------------------------------------"
-mvn clean install -P python > ~/maven_geomesa_spark_build.log
+mvn clean install -D skipTests -P python > ~/maven_geomesa_spark_build.log
 
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
