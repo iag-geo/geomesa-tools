@@ -257,6 +257,7 @@ def run_geomesa_query(settings, spark):
     start_time = datetime.datetime.now()
 
     spatial_query = """SELECT globalEventId,
+                         dtg,
                          actor1Name,
                          actor2Name,
                          st_bufferPoint(geom, 100) AS geom
@@ -265,7 +266,7 @@ def run_geomesa_query(settings, spark):
     # show the query results
     spark.sql(spatial_query).show()
 
-    logger.info("\t- query run : {}".format(datetime.datetime.now() - start_time, ))
+    logger.info("\t- query done : {}".format(datetime.datetime.now() - start_time, ))
 
     # remove data frame from cache (not sure if required to clean up memory)
     geomesa_data_frame.unpersist()

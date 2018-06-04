@@ -71,7 +71,7 @@ On Windows:
 ### Step 3 - Do something with GeoMesa
 
 1. Edit this command to add the S3 bucket you want to output the GeoMesa data to: `spark-submit --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar geomesa_convert.py --target-s3-bucket <your_output_s3_bucket_name>`
-1. Run the command!
+1. Whilst still logged into the EMR master server - run the command!
 
 If all goes well - the script will:
 1. Load the GDELT data from S3
