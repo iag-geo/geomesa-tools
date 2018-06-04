@@ -33,13 +33,13 @@ Log into the AWS Console to setup security and create a EMR cluster with Hadoop,
 1. Click **Go to advanced options**
 1. Wait a few seconds and choose the *emr-5.12.1* release
 1. Select *Hadoop*, *Hive* and *Spark* to install, click **next**
-1. Leave the number of Core servers at 2 (unless you want to run it a bit faster), click **next**
+1. Leave the number of core servers at 2 (unless you want to run it a bit faster), click **next**
 1. Give your cluster a meaningful name like *Geomesa Test*, click **next**
 1. Select your EC2 key pair & click **Create cluster**
 1. *Wait several minutes for the cluster to start*
 1. Get the public IP address of the master server (click **Hardware** and then the master server's ID)
 1. In the EC2 Console - edit the security group of the master server to [allow SSH access](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html) from your machine
-1. Refresh the EMR Console to confirm the master and Core servers are running
+1. Refresh the EMR Console to confirm the master and core servers are running
 
 ### Important
 If you created a key pair - download it and...
