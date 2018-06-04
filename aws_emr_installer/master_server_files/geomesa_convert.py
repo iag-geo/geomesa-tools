@@ -34,11 +34,11 @@ def main():
     start_time = datetime.datetime.now()
 
     parser = argparse.ArgumentParser(
-        description='Takes GDELT data on S3, filters it & converts it to GeoMesa parquet format '
+        description='Takes GDELT data on S3, filters it & converts it to GeoMesa Parquet format '
                     'using Pyspark on an AWS EMR instance')
 
     parser.add_argument(
-        '--target-s3-bucket', help='The S3 bucket for the output GeoMesa parquet files')
+        '--target-s3-bucket', help='The S3 bucket for the output GeoMesa Parquet files')
 
     args = parser.parse_args()
 

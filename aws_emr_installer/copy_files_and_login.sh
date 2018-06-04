@@ -2,7 +2,7 @@
 
 #----------------------------------------------------------------------------------------------------------------------
 #
-# Purpose: copies required file to the EMR master server and logs in via SSH
+# Purpose: copies required files to the EMR master server and logs in via SSH
 #
 # Organisation: IAG
 # Author: Hugh Saalmans, Product Innovation
