@@ -74,7 +74,7 @@ On Windows:
 1. Whilst still logged into the EMR master server - run the command!
 
 If all goes well - the script will:
-1. Load the GDELT data from S3
+1. Load GDELT data from S3
 1. Filter it to Australia
-1. Output it as GeoMesa Parquet formatted data to S3
-1. Run a spatial query on the GeoMesa dataset and show the results on screen
+1. Output it in GeoMesa Parquet format to S3
+1. Run a spatial query on the GeoMesa S3 dataset and show the results on screen
