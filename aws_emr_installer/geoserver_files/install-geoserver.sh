@@ -1,25 +1,39 @@
 #!/usr/bin/env bash
 
 
-# Install Geoserver
+# Add Geoserver environment vars for hadoop user
 cd ~
 echo -e "\n# Geoserver variables" >> .bashrc
-echo "export GEOSERVER_VERSION=2.13.1" >> ~/.bashrc
+echo "export GEOSERVER_VERSION=2.13.1" >> .bashrc
 source ~/.bashrc
-echo "export GEOSERVER_HOME=/usr/share/geoserver-$GEOSERVER_VERSION" >> ~/.bashrc
+echo "export GEOSERVER_HOME=/usr/share/geoserver-$GEOSERVER_VERSION" >> .bashrc
 source ~/.bashrc
 
+# Add Geoserver home to service file (won't be able to use any user vars)
+sudo sed -i -e "s|case |export JAVA_HOME=${JAVA_HOME}\nexport GEOSERVER_HOME=${GEOSERVER_HOME}\n\ncase |g" geoserver
+
+# download and unzip
 wget "https://sourceforge.net/projects/geoserver/files/GeoServer/$GEOSERVER_VERSION/geoserver-$GEOSERVER_VERSION-bin.zip"
 unzip geoserver-$GEOSERVER_VERSION-bin.zip
 sudo mv geoserver-$GEOSERVER_VERSION $GEOSERVER_HOME
 rm geoserver-$GEOSERVER_VERSION-bin.zip
 
+# set ownership of directory
 sudo chown -R hadoop $GEOSERVER_HOME
 
-cd $GEOSERVER_HOME/bin
-sh startup.sh
+# change port number from the default - already in use
+sudo sed -i -e "s/jetty.port=8080/jetty.port=2040/g" $GEOSERVER_HOME/start.ini
+
+# move the service file to init.d and set permissions
+# NOT WORKING - doesn't run as a daemon
+sudo mv geoserver /etc/init.d/
+chmod 0755 /etc/init.d/geoserver
+sudo service geoserver start
 
 
+
+
+#. $GEOSERVER_HOME/bin/startup.sh
 
 
 

@@ -28,5 +28,10 @@ file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #   install-geomesa.sh : GeoMesa FileSystem Datastore & GeoMesa Spark install script
 scp -i ${pem_file} ${file_dir}/master_server_files/* hadoop@${ip_address}:~/
 
+# TESTING ONLY - copy geoserver install and service files
+#   geoserver            : Geoserver service file
+#   install-geoserver.sh : Geoserver install script
+#scp -i ${pem_file} ${file_dir}/geoserver_files/* hadoop@${ip_address}:~/
+
 # ssh into master EMR server
 ssh -i ${pem_file} hadoop@${ip_address}
