@@ -9,7 +9,7 @@ source ~/.bashrc
 echo "export GEOSERVER_HOME=/usr/share/geoserver-$GEOSERVER_VERSION" >> .bashrc
 source ~/.bashrc
 
-# Add Geoserver home to service file (won't be able to use any user vars)
+# Add Java and Geoserver home to service file (won't be able to use any user vars)
 sudo sed -i -e "s|case |export JAVA_HOME=${JAVA_HOME}\nexport GEOSERVER_HOME=${GEOSERVER_HOME}\n\ncase |g" geoserver
 
 # download and unzip

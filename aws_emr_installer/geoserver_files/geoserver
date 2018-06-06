@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# Source function library.
+. /etc/init.d/functions
+
 case "$1" in
 start)
-   $GEOSERVER_HOME/bin/startup.sh &
+   $GEOSERVER_HOME/bin/startup.sh
    echo $! > /var/run/geoserver.pid
    ;;
 stop)
-   kill 'cat /var/run/geoserver.pid'
+   cat /var/run/geoserver.pid | kill
    rm /var/run/geoserver.pid
    ;;
 restart)
@@ -15,7 +18,8 @@ restart)
    ;;
 status)
    if [ -e /var/run/geoserver.pid ]; then
-      echo geoserver is running, pid='cat /var/run/geoserver.pid'
+      PID =
+      echo geoserver is running, pid=''
    else
       echo geoserver is NOT running
       exit 1
