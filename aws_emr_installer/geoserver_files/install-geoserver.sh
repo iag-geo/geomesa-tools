@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+
+# Install Geoserver
+cd ~
+echo -e "\n# Geoserver variables" >> .bashrc
+echo "export GEOSERVER_VERSION=2.13.1" >> ~/.bashrc
+source ~/.bashrc
+echo "export GEOSERVER_HOME=/usr/share/geoserver-$GEOSERVER_VERSION" >> ~/.bashrc
+source ~/.bashrc
+
+wget "https://sourceforge.net/projects/geoserver/files/GeoServer/$GEOSERVER_VERSION/geoserver-$GEOSERVER_VERSION-bin.zip"
+unzip geoserver-$GEOSERVER_VERSION-bin.zip
+sudo mv geoserver-$GEOSERVER_VERSION $GEOSERVER_HOME
+rm geoserver-$GEOSERVER_VERSION-bin.zip
+
+sudo chown -R hadoop $GEOSERVER_HOME
+
+cd $GEOSERVER_HOME/bin
+sh startup.sh
+
+
+
+
+
 #
 # Copyright (c) 2013-2016 Commonwealth Computer Research, Inc.
 # All rights reserved. This program and the accompanying materials
