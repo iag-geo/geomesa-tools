@@ -5,11 +5,11 @@
 
 case "$1" in
 start)
-   $GEOSERVER_HOME/bin/startup.sh
+   $GEOSERVER_HOME/bin/startup.sh &
    echo $! > /var/run/geoserver.pid
    ;;
 stop)
-   cat /var/run/geoserver.pid | kill
+   kill 'cat /var/run/geoserver.pid'
    rm /var/run/geoserver.pid
    ;;
 restart)
@@ -18,8 +18,7 @@ restart)
    ;;
 status)
    if [ -e /var/run/geoserver.pid ]; then
-      PID =
-      echo geoserver is running, pid=''
+      echo geoserver is running, pid='cat /var/run/geoserver.pid'
    else
       echo geoserver is NOT running
       exit 1
