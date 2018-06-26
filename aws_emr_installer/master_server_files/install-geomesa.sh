@@ -44,7 +44,7 @@ TEMP_HDFS_PATH="$(hdfs getconf -confKey fs.defaultFS)"
 echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> .bashrc
 
 echo -e "\n# GeoMesa variables" >> .bashrc
-echo "export GEOMESA_VERSION=2.0.1" >> .bashrc
+echo "export GEOMESA_VERSION=2.0.2" >> .bashrc
 echo "export MAVEN_VERSION=3.5.3" >> .bashrc
 source .bashrc
 
