@@ -47,7 +47,7 @@ def main():
     # Spark & GeoMesa environment vars
     settings["home"] = os.environ["HOME"]
     settings["spark_home"] = os.environ["SPARK_HOME"]
-    settings["hdfs_path"] = os.environ["HDFS_PATH"]
+    # settings["hdfs_path"] = os.environ["HDFS_PATH"]
     settings["geomesa_version"] = os.environ["GEOMESA_VERSION"]
     settings["geomesa_fs_home"] = os.environ["GEOMESA_FS_HOME"]
 
@@ -100,7 +100,7 @@ def main():
 
     # set S3 and HDFS paths - must use the s3a:// prefix for S3 files
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
-    settings["temp_hdfs_path"] = "{}/tmp/geomesa_ingest".format(settings["hdfs_path"], )
+    settings["temp_hdfs_path"] = "~/tmp/geomesa_ingest"
     settings["target_s3_path"] = "s3a://{}/{}".format(settings["target_s3_bucket"], settings["target_s3_directory"])
 
     # The GeoMesa ingest Bash command

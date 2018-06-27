@@ -38,9 +38,8 @@ echo "export JAVA_HOME=/library/Java/Home" >> ~/.bash_profile
 
 echo -e "\n# Spark path" >> ~/.bash_profile
 echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
+echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
 source ~/.bash_profile
-
-#echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.4-src.zip" >> ~/.bash_profile
 
 #echo -e "\n# Hadoop paths" >> ~/.bash_profile
 #echo "export HADOOP_HOME=/usr/lib/hadoop" >> ~/.bash_profile
@@ -111,7 +110,8 @@ mvn clean install -D skipTests -P python > ~/geomesa/maven_geomesa_spark_build.l
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
+#python -m pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz --trusted-host pypi.python.org
+pip2.7 install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
