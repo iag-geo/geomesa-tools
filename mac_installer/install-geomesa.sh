@@ -11,6 +11,8 @@
 # Copyright:
 #  - Code is copyright IAG - licensed under an Apache License, version 2.0
 #
+# IMPORTANT: requires Python 2.7.15 to avoid TLS issue with pypi
+#
 #----------------------------------------------------------------------------------------------------------------------
 
 # record how long this script takes (8-10 mins usually)
