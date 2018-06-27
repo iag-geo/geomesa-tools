@@ -16,19 +16,29 @@
 # record how long this script takes (8-10 mins usually)
 SECONDS=0
 
+echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
+echo "# GEOMESA SETTINGS - start" >> ~/.bash_profile
+echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
+
+echo "-------------------------------------------------------------------------"
+echo "Installing Apache Spark"
+echo "-------------------------------------------------------------------------"
+brew cask install java8
+brew install scala
+brew install apache-spark
+
 echo "-------------------------------------------------------------------------"
 echo "Setting server environment"
 echo "-------------------------------------------------------------------------"
 
 # add paths to ~/.bash_profile
 
-echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
-echo "# GEOMESA SETTINGS - start" >> ~/.bash_profile
-echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
+echo -e "\n# Java home" >> ~/.bash_profile
+echo "export JAVA_HOME=/library/Java/Home" >> ~/.bash_profile
 
-#echo -e "\n# Pyspark paths" >> ~/.bash_profile
-#echo "export SPARK_HOME=/usr/lib/spark" >> ~/.bash_profile
-#source ~/.bash_profile
+echo -e "\n# Spark path" >> ~/.bash_profile
+echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
+source ~/.bash_profile
 
 #echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.4-src.zip" >> ~/.bash_profile
 
@@ -101,7 +111,7 @@ mvn clean install -D skipTests -P python > ~/geomesa/maven_geomesa_spark_build.l
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-sudo pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
+pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
