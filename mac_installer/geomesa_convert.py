@@ -137,7 +137,7 @@ def get_spark_session(settings):
         jars=[settings["geomesa_fs_spark_jar"]],
         packages=["geomesa_pyspark", "pytz"],
         spark_home=settings["spark_home"]) \
-        .setAppName("geoMesa conversion test")
+        .setAppName("Geomesa conversion test")
 
     conf.set("spark.hadoop.fs.s3.fast.upload", "true")
     conf.set("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")

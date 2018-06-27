@@ -2,6 +2,8 @@
 
 #----------------------------------------------------------------------------------------------------------------------
 #
+#  THIS DOES NOT WORK (YET)
+#
 # Purpose: Installs GeoMesa FileSystem Datastore and GeoMesa Spark on a standalone Mac
 #
 # Organisation: IAG
@@ -23,11 +25,16 @@ echo "# GEOMESA SETTINGS - start" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
-echo "Installing Apache Spark"
+echo "Installing Apache Spark and Python modules"
 echo "-------------------------------------------------------------------------"
 brew cask install java8
 brew install scala
 brew install apache-spark
+
+pip2.7 install --upgrade pip
+pip2.7 install py4j
+pip2.7 install pytz
+pip2.7 install pyspark
 
 echo "-------------------------------------------------------------------------"
 echo "Setting server environment"
@@ -40,7 +47,7 @@ echo "export JAVA_HOME=/library/Java/Home" >> ~/.bash_profile
 
 echo -e "\n# Spark path" >> ~/.bash_profile
 echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
-echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
+#echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
 source ~/.bash_profile
 
 #echo -e "\n# Hadoop paths" >> ~/.bash_profile
@@ -78,7 +85,7 @@ tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 rm geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-$GEOMESA_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
-echo "export PATH=$GEOMESA_FS_HOME/bin:$PATH" >> ~/.bash_profile
+echo "export PATH=$GEOMESA_FS_HOME/bin:${PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 # install maven to build GeoMesa Spark
@@ -90,7 +97,7 @@ tar xzf apache-maven-$MAVEN_VERSION-bin.tar.gz
 #sudo mv apache-maven-$MAVEN_VERSION /usr/local/apache-maven-$MAVEN_VERSION
 rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 echo -e "\n# add maven to PATH" >> ~/.bash_profile
-echo "export PATH=~/geomesa/apache-maven-$MAVEN_VERSION/bin:$PATH" >> ~/.bash_profile
+echo "export PATH=~/geomesa/apache-maven-$MAVEN_VERSION/bin:${PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
