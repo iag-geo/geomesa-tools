@@ -170,7 +170,7 @@ cd $HADOOP_HOME/sbin
 cd ~
 
 $HADOOP_HOME/bin/hdfs dfs -mkdir /user
-$HADOOP_HOME/bin/hdfs dfs -mkdir /user/hugh.saalmans
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user/myusername
 
 
 
