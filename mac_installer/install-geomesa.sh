@@ -31,10 +31,11 @@ brew cask install java8
 brew install scala
 brew install apache-spark
 
-pip2.7 install --upgrade pip
-pip2.7 install py4j
-pip2.7 install pytz
-pip2.7 install pyspark
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
+#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install -I py4j==0.10.4
+#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install pytz
+#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install pyspark
 
 echo "-------------------------------------------------------------------------"
 echo "Setting server environment"
@@ -84,8 +85,8 @@ tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 #sudo mv geomesa-fs_2.11-$GEOMESA_VERSION /usr/local/geomesa-fs_2.11-$GEOMESA_VERSION
 rm geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-$GEOMESA_VERSION" >> ~/.bash_profile
-source ~/.bash_profile
-echo "export PATH=$GEOMESA_FS_HOME/bin:${PATH}" >> ~/.bash_profile
+#source ~/.bash_profile
+#echo "export PATH=$GEOMESA_FS_HOME/bin:${PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 # install maven to build GeoMesa Spark
@@ -96,8 +97,8 @@ curl -L "http://mirror.olnevhost.net/pub/apache/maven/maven-3/$MAVEN_VERSION/bin
 tar xzf apache-maven-$MAVEN_VERSION-bin.tar.gz
 #sudo mv apache-maven-$MAVEN_VERSION /usr/local/apache-maven-$MAVEN_VERSION
 rm apache-maven-$MAVEN_VERSION-bin.tar.gz
-echo -e "\n# add maven to PATH" >> ~/.bash_profile
-echo "export PATH=~/geomesa/apache-maven-$MAVEN_VERSION/bin:${PATH}" >> ~/.bash_profile
+echo -e "\n# maven home" >> ~/.bash_profile
+echo "export MAVEN_HOME=~/geomesa/apache-maven-$MAVEN_VERSION/bin" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
@@ -112,15 +113,14 @@ cd ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark
 cp -R ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/build ./build/
 
 echo "-------------------------------------------------------------------------"
-echo "Building GeoMesa Spark (~7 mins)"
+echo "Building GeoMesa Spark (~3 mins)"
 echo "-------------------------------------------------------------------------"
-mvn clean install -D skipTests -P python > ~/geomesa/maven_geomesa_spark_build.log
+$MAVEN_HOME/mvn clean install -D skipTests -P python > ~/geomesa/maven_geomesa_spark_build.log
 
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-#python -m pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz --trusted-host pypi.python.org
-pip2.7 install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
