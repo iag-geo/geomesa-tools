@@ -22,6 +22,10 @@
 # record how long this script takes (8-10 mins usually)
 SECONDS=0
 
+# setup SSH key pair for hadoop to connect to localhost
+echo | ssh-keygen -t rsa -P ""
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
 # use wget to download files
 brew install wget
 
@@ -79,7 +83,7 @@ tar xzf hadoop-$HADOOP_VERSION.tar.gz
 rm hadoop-$HADOOP_VERSION.tar.gz
 
 echo -e "\n# Hadoop paths" >> ~/.bash_profile
-echo "export HADOOP_HOME=~/geomesa//hadoop-$HADOOP_VERSION" >> ~/.bash_profile
+echo "export HADOOP_HOME=~/geomesa/hadoop-$HADOOP_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
 source ~/.bash_profile
@@ -91,12 +95,14 @@ sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</nam
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
 sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name> <value>yarn</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
 
+#. $HADOOP_CONF_DIR/hadoop-env.sh
+#. $HADOOP_CONF_DIR/yarn-env.sh
 
+# prep directory
+cd $HADOOP_HOME
+bin/hdfs namenode -format
 
-
-
-. $HADOOP_CONF_DIR/hadoop-env.sh
-. $HADOOP_CONF_DIR/yarn-env.sh
+cd ~/geomesa
 
 
 ## get HDFS path
@@ -156,9 +162,21 @@ echo -e "\n# -------------------------------------------------------------------
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
+# start hadoop
+cd $HADOOP_HOME/sbin
+. start-dfs.sh
+. start-yarn.sh
+
 cd ~
+
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user/hugh.saalmans
+
+
 
 duration=$SECONDS
 echo "-------------------------------------------------------------------------"
 echo "GeoMesa install finished in $(($duration / 60))m $(($duration % 60))s"
 echo "-------------------------------------------------------------------------"
+
+
