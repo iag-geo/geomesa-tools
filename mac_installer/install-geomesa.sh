@@ -98,19 +98,6 @@ sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name> <v
 #. $HADOOP_CONF_DIR/hadoop-env.sh
 #. $HADOOP_CONF_DIR/yarn-env.sh
 
-# prep directory
-cd $HADOOP_HOME
-bin/hdfs namenode -format
-
-cd ~/geomesa
-
-
-## get HDFS path
-#TEMP_HDFS_PATH="$(hdfs getconf -confKey fs.defaultFS)"
-#echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
-
-
-
 # download and install GeoMesa FileSystem Datastore
 echo "-------------------------------------------------------------------------"
 echo "Installing GeoMesa FileSystem Datastore"
@@ -162,17 +149,29 @@ echo -e "\n# -------------------------------------------------------------------
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
+echo "-------------------------------------------------------------------------"
+echo "Starting Hadoop"
+echo "-------------------------------------------------------------------------"
+
+# create hadoop file store (HDFS)
+cd $HADOOP_HOME
+bin/hdfs namenode -format
+
 # start hadoop
 cd $HADOOP_HOME/sbin
 . start-dfs.sh
 . start-yarn.sh
 
-cd ~
-
+# create folders in HDFS
 $HADOOP_HOME/bin/hdfs dfs -mkdir /user
-$HADOOP_HOME/bin/hdfs dfs -mkdir /user/myusername
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user/temp
 
+# get HDFS path
+TEMP_HDFS_PATH="$($HADOOP_HOME/bin/hdfs getconf -confKey fs.defaultFS)"
+echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
+source ~/.bash_profile
 
+cd ~
 
 duration=$SECONDS
 echo "-------------------------------------------------------------------------"
