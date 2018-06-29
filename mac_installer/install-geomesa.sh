@@ -120,6 +120,8 @@ wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-
 tar xzf aws-java-sdk-s3-1.11.356.jar
 rm aws-java-sdk-s3-1.11.356.jar
 
+cd ~/geomesa
+
 ## reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
 #cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
 #sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g" $SPARK_HOME/conf/log4j.properties
