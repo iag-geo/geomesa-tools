@@ -38,7 +38,7 @@ def main():
                     'using Pyspark on an AWS EMR instance')
 
     parser.add_argument(
-        '--target-s3-bucket', help='The S3 bucket for the output GeoMesa Parquet files')
+        '--target-directory', help='A local directory for the output GeoMesa Parquet files')
 
     args = parser.parse_args()
 
@@ -47,7 +47,7 @@ def main():
     # Spark & GeoMesa environment vars
     settings["home"] = os.environ["HOME"]
     settings["spark_home"] = os.environ["SPARK_HOME"]
-    # settings["hdfs_path"] = os.environ["HDFS_PATH"]
+    settings["hdfs_path"] = os.environ["HDFS_PATH"]
     settings["geomesa_version"] = os.environ["GEOMESA_VERSION"]
     settings["geomesa_fs_home"] = os.environ["GEOMESA_FS_HOME"]
 
@@ -78,8 +78,10 @@ def main():
     settings["source_s3_bucket"] = "gdelt-open-data"
     settings["source_s3_directory"] = "events"
 
-    settings["target_s3_bucket"] = args.target_s3_bucket
-    settings["target_s3_directory"] = "geomesa_test"
+    settings["target_local_directory"] = args.directory
+
+    # settings["target_s3_bucket"] = args.target_s3_bucket
+    # settings["target_s3_directory"] = "geomesa_test"
 
     # number of reducers for GeoMesa ingest (determines how the reduce tasks get split up)
     settings["num_reducers"] = 16
@@ -100,8 +102,8 @@ def main():
 
     # set S3 and HDFS paths - must use the s3a:// prefix for S3 files
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
-    settings["temp_hdfs_path"] = "~/tmp/geomesa_ingest"
-    settings["target_s3_path"] = "s3a://{}/{}".format(settings["target_s3_bucket"], settings["target_s3_directory"])
+    settings["temp_hdfs_path"] = "{}/user/temp/geomesa_ingest".format(settings["hdfs_path"], )
+    # settings["target_s3_path"] = "s3a://{}/{}".format(settings["target_s3_bucket"], settings["target_s3_directory"])
 
     # The GeoMesa ingest Bash command
     settings["ingest_command_line"] = """{0}/bin/geomesa-fs ingest \
@@ -114,7 +116,7 @@ def main():
                                             --leaf-storage true \
                                             --num-reducers {6} \
                                             '{7}/*.csv'""" \
-        .format(settings["geomesa_fs_home"], settings["target_s3_path"], settings["geomesa_schema"],
+        .format(settings["geomesa_fs_home"], settings["target_local_directory"], settings["geomesa_schema"],
                 settings["sft_config"], settings["sft_converter"], settings["partition_schema"],
                 settings["num_reducers"], settings["temp_hdfs_path"])
 
