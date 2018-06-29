@@ -108,7 +108,7 @@ rm spark-$SPARK_VERSION-bin-hadoop2.7.tgz
 echo -e "\n# Spark paths" >> ~/.bash_profile
 echo "export SPARK_HOME=~/geomesa/spark-$SPARK_VERSION-bin-hadoop2.7" >> ~/.bash_profile
 source ~/.bash_profile
-echo "export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$SPARK_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH" >> ~/.bash_profile
+#echo "export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$SPARK_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH" >> ~/.bash_profile
 source ~/.bash_profile
 
 # add required jar files
