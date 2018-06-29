@@ -88,8 +88,9 @@ source ~/.bash_profile
 sed -i -e "s%</configuration>%<property><name>fs.defaultFS</name><value>hdfs://localhost/</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
 sed -i -e "s%</configuration>%<property><name>dfs.replication</name><value>1</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
 sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</name><value>mapreduce_shuffle</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
+sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
-sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name> <value>yarn</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
+sed -i -e "s%</configuration>%  <property><name>mapreduce.framework.name</name> <value>yarn</value></property>\n</configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
 
 #. $HADOOP_CONF_DIR/hadoop-env.sh
 #. $HADOOP_CONF_DIR/yarn-env.sh
