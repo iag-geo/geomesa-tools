@@ -63,7 +63,7 @@ echo "-------------------------------------------------------------------------"
 # add paths to ~/.bash_profile
 
 echo -e "\n# Java & Scala paths" >> ~/.bash_profile
-echo "export JAVA_HOME=/library/Java/Home" >> ~/.bash_profile
+echo "export JAVA_HOME=/Library/Java/Home" >> ~/.bash_profile
 echo "export SCALA_HOME=/usr/local/opt/scala@2.11" >> ~/.bash_profile
 
 #echo -e "\n# Spark path" >> ~/.bash_profile
@@ -91,6 +91,9 @@ sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</nam
 sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
 sed -i -e "s%</configuration>%  <property><name>mapreduce.framework.name</name> <value>yarn</value></property>\n</configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
+# fix for Mac
+sed -i -e "s%export JAVA_HOME=(\$(/usr/libexec/java_home))%export JAVA_HOME=\$(/usr/libexec/java_home)%g" $HADOOP_HOME/libexec/hadoop-config.sh
+sed -i -e "s%export JAVA_HOME=(/Library/Java/Home)%export JAVA_HOME=/Library/Java/Home%g" $HADOOP_HOME/libexec/hadoop-config.sh
 
 #. $HADOOP_CONF_DIR/hadoop-env.sh
 #. $HADOOP_CONF_DIR/yarn-env.sh
