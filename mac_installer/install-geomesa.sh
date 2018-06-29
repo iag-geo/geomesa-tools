@@ -41,14 +41,14 @@ echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
 echo "export HADOOP_VERSION=2.8.4" >> ~/.bash_profile
+echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
-echo "Installing Apache Spark and Python modules"
+echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 brew cask install java8
 brew install scala@2.11
-brew install apache-spark
 
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
@@ -66,10 +66,10 @@ echo -e "\n# Java & Scala paths" >> ~/.bash_profile
 echo "export JAVA_HOME=/library/Java/Home" >> ~/.bash_profile
 echo "export SCALA_HOME=/usr/local/opt/scala@2.11" >> ~/.bash_profile
 
-echo -e "\n# Spark path" >> ~/.bash_profile
-echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
-#echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
-source ~/.bash_profile
+#echo -e "\n# Spark path" >> ~/.bash_profile
+#echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
+##echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
+#source ~/.bash_profile
 
 # reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
 cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
@@ -97,6 +97,32 @@ sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name> <v
 
 #. $HADOOP_CONF_DIR/hadoop-env.sh
 #. $HADOOP_CONF_DIR/yarn-env.sh
+
+echo "-------------------------------------------------------------------------"
+echo "Installing Spark"
+echo "-------------------------------------------------------------------------"
+wget http://apache.mirror.amaze.com.au/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop2.7.tgz
+tar -xzf spark-$SPARK_VERSION-bin-hadoop2.7.tgz
+rm spark-$SPARK_VERSION-bin-hadoop2.7.tgz
+
+echo -e "\n# Spark paths" >> ~/.bash_profile
+echo "export SPARK_HOME=~/geomesa/spark-$SPARK_VERSION-bin-hadoop2.7" >> ~/.bash_profile
+source ~/.bash_profile
+echo "export PATH=$JAVA_HOME/bin:$SCALA_HOME/bin:$SPARK_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH" >> ~/.bash_profile
+source ~/.bash_profile
+
+# add required jar files
+cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar $SPARK_HOME/jars
+cd $SPARK_HOME/jars
+
+wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.356/aws-java-sdk-1.11.356.jar
+tar xzf aws-java-sdk-1.11.356.jar
+rm aws-java-sdk-1.11.356.jar
+
+wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
+tar xzf aws-java-sdk-s3-1.11.356.jar
+rm aws-java-sdk-s3-1.11.356.jar
+
 
 # download and install GeoMesa FileSystem Datastore
 echo "-------------------------------------------------------------------------"

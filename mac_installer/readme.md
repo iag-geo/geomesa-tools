@@ -22,6 +22,7 @@ This guide & code will deploy the following stack on your Mac:
 On your Mac:
 1. Go to [python.org](https://www.python.org/downloads/release/python-2715/) and download the **macOS 64-bit installer** for Python 2.7.15 *(2.7.15 is required to avoid TLS issue with [PyPI](https://pypi.org/))*
 1. Install Python to the default directory (`/Library/Frameworks/Python.framework/Versions/2.7`)
+1. Enable Remote Login on your Mac: go to **System Preferences > Sharing** and Check the *Remote Login* box. This will enable remoting into Hadoop using SSH.
 
 ### Step 2 - Install everything
 1. Open your preferred command line tool (Terminal, iTerm, emacs, etc...)

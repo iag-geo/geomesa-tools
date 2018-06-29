@@ -78,7 +78,7 @@ def main():
     settings["source_s3_bucket"] = "gdelt-open-data"
     settings["source_s3_directory"] = "events"
 
-    settings["target_local_directory"] = args.directory
+    settings["target_local_directory"] = args.target_directory
 
     # settings["target_s3_bucket"] = args.target_s3_bucket
     # settings["target_s3_directory"] = "geomesa_test"
