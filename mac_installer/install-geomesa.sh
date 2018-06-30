@@ -176,10 +176,6 @@ echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
-echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
-echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
-echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
-
 echo "-------------------------------------------------------------------------"
 echo "Starting Hadoop"
 echo "-------------------------------------------------------------------------"
@@ -203,6 +199,10 @@ echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 cd ~
+
+echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
+echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
+echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
 duration=$SECONDS
 echo "-------------------------------------------------------------------------"
