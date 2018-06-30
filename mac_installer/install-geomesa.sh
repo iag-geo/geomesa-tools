@@ -40,7 +40,7 @@ echo "# -----------------------------------------------------------------------"
 echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
-echo "export HADOOP_VERSION=2.8.4" >> ~/.bash_profile
+echo "export HADOOP_VERSION=2.7.6" >> ~/.bash_profile
 echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
 source ~/.bash_profile
 
@@ -191,10 +191,11 @@ cd $HADOOP_HOME/sbin
 
 # create folders in HDFS
 $HADOOP_HOME/bin/hdfs dfs -mkdir /user
-$HADOOP_HOME/bin/hdfs dfs -mkdir /user/temp
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user/hugh.saalmans
 
 # get HDFS path
 TEMP_HDFS_PATH="$($HADOOP_HOME/bin/hdfs getconf -confKey fs.defaultFS)"
+echo -e "\n# local HDFS path (for temp files)" >> ~/.bash_profile
 echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
