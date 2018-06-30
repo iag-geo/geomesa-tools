@@ -87,13 +87,13 @@ source ~/.bash_profile
 # configure Hadoop environment
 sed -i -e "s%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true\"%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc=\"%g" $HADOOP_CONF_DIR/hadoop-env.sh
 sed -i -e "s%</configuration>%<property><name>fs.defaultFS</name><value>hdfs://localhost/</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
-sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>~/tmp/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
+#sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>~/tmp/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
 sed -i -e "s%</configuration>%<property><name>dfs.replication</name><value>1</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
 sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</name><value>mapreduce_shuffle</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
 sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name><value>yarn</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
-sed -i -e "s%</configuration>%<property><name>mapred.job.tracker</name><value>localhost:8021</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
+#sed -i -e "s%</configuration>%<property><name>mapred.job.tracker</name><value>localhost:8021</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
 
 # fix for Mac (for Hadoop 2.8.x and 2.9.x)
 sed -i -e "s%export JAVA_HOME=(\$(/usr/libexec/java_home))%export JAVA_HOME=\$(/usr/libexec/java_home)%g" $HADOOP_HOME/libexec/hadoop-config.sh
