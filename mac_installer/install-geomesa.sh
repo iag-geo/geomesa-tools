@@ -40,7 +40,7 @@ echo "# -----------------------------------------------------------------------"
 echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
-echo "export HADOOP_VERSION=2.7.6" >> ~/.bash_profile
+echo "export HADOOP_VERSION=2.8.4" >> ~/.bash_profile
 echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
 source ~/.bash_profile
 
@@ -74,11 +74,13 @@ echo "export SCALA_HOME=/usr/local/opt/scala@2.11" >> ~/.bash_profile
 echo "-------------------------------------------------------------------------"
 echo "Installing Hadoop"
 echo "-------------------------------------------------------------------------"
+#brew install hadoop
 wget http://apache.mirror.amaze.com.au/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 tar xzf hadoop-$HADOOP_VERSION.tar.gz
 rm hadoop-$HADOOP_VERSION.tar.gz
 
 echo -e "\n# Hadoop paths" >> ~/.bash_profile
+#echo "export HADOOP_HOME=/usr/local/Cellar/hadoop/$HADOOP_VERSION" >> ~/.bash_profile
 echo "export HADOOP_HOME=~/geomesa/hadoop-$HADOOP_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
@@ -87,13 +89,13 @@ source ~/.bash_profile
 # configure Hadoop environment
 sed -i -e "s%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true\"%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc=\"%g" $HADOOP_CONF_DIR/hadoop-env.sh
 sed -i -e "s%</configuration>%<property><name>fs.defaultFS</name><value>hdfs://localhost/</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
-#sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>~/tmp/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
+sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>$HADOOP_HOME/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
 sed -i -e "s%</configuration>%<property><name>dfs.replication</name><value>1</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
 sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</name><value>mapreduce_shuffle</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
 sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name><value>yarn</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
-#sed -i -e "s%</configuration>%<property><name>mapred.job.tracker</name><value>localhost:8021</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
+sed -i -e "s%</configuration>%<property><name>mapred.job.tracker</name><value>localhost:8021</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
 
 # fix for Mac (for Hadoop 2.8.x and 2.9.x)
 sed -i -e "s%export JAVA_HOME=(\$(/usr/libexec/java_home))%export JAVA_HOME=\$(/usr/libexec/java_home)%g" $HADOOP_HOME/libexec/hadoop-config.sh
@@ -195,7 +197,7 @@ cd $HADOOP_HOME/sbin
 
 # create folders in HDFS
 $HADOOP_HOME/bin/hdfs dfs -mkdir /user
-$HADOOP_HOME/bin/hdfs dfs -mkdir /user/hugh.saalmans
+$HADOOP_HOME/bin/hdfs dfs -mkdir /user/$USER
 
 # get HDFS path
 TEMP_HDFS_PATH="$($HADOOP_HOME/bin/hdfs getconf -confKey fs.defaultFS)"
