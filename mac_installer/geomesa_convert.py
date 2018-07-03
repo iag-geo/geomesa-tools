@@ -44,21 +44,24 @@ def main():
 
     settings = dict()
 
-    print(os.environ.keys())
-    print(os.environ["HOME"])
-    print(os.environ["JAVA_HOME"])
-    print(os.environ["PYTHONPATH"])
-
-    # Spark & GeoMesa environment vars
-    settings["home"] = os.environ["HOME"]
-    settings["spark_home"] = os.environ["SPARK_HOME"]
-    settings["hdfs_path"] = os.environ["HDFS_PATH"]
-    settings["geomesa_version"] = os.environ["GEOMESA_VERSION"]
-    settings["geomesa_fs_home"] = os.environ["GEOMESA_FS_HOME"]
+    # print(os.environ.keys())
+    # print(os.environ["HOME"])
+    # print(os.environ["JAVA_HOME"])
+    # print(os.environ["PYTHONPATH"])
 
     # -----------------------------------------------------------------------------------------------------------------
     # Edit these to taste (feel free to convert these to runtime arguments)
     # -----------------------------------------------------------------------------------------------------------------
+
+    # software versions
+    settings["geomesa_version"] = "2.0.2"
+    settings["spark_version"] = "3.2.1"
+
+    # environment settings - can't use Mac env vars as Spark env is different
+    settings["home"] = os.path.realpath(__file__)
+    settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
+    settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
+    settings["hdfs_path"] = "hdfs://127.0.0.1"
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
@@ -176,8 +179,8 @@ def get_spark_session(settings):
         # .config(conf=conf) \
         # .enableHiveSupport() \
 
-    spark.addPyFile("~/geomesa/geomesa-geomesa_2.11-{0}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-{0}.tar.gz"
-            .format(settings["geomesa_version"],))
+    # spark.addPyFile("~/geomesa/geomesa-geomesa_2.11-{0}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-{0}.tar.gz"
+    #         .format(settings["geomesa_version"],))
 
     return spark
 

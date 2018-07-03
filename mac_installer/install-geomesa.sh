@@ -121,8 +121,8 @@ sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name><va
 sed -i -e "s%export JAVA_HOME=(\$(/usr/libexec/java_home))%export JAVA_HOME=\$(/usr/libexec/java_home)%g" $HADOOP_HOME/libexec/hadoop-config.sh
 sed -i -e "s%export JAVA_HOME=(/Library/Java/Home)%export JAVA_HOME=/Library/Java/Home%g" $HADOOP_HOME/libexec/hadoop-config.sh
 
-. $HADOOP_CONF_DIR/hadoop-env.sh
-. $HADOOP_CONF_DIR/yarn-env.sh
+#. $HADOOP_CONF_DIR/hadoop-env.sh
+#. $HADOOP_CONF_DIR/yarn-env.sh
 
 #echo "-------------------------------------------------------------------------"
 #echo "Installing Hive"
@@ -150,15 +150,17 @@ source ~/.bash_profile
 
 # add required jar files
 cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar $SPARK_HOME/jars
+
 cd $SPARK_HOME/jars
 
-wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.356/aws-java-sdk-1.11.356.jar
-tar xzf aws-java-sdk-1.11.356.jar
-rm aws-java-sdk-1.11.356.jar
+#wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.356/aws-java-sdk-1.11.356.jar
+#tar xzf aws-java-sdk-1.11.356.jar
+#rm aws-java-sdk-1.11.356.jar
 
-wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
-tar xzf aws-java-sdk-s3-1.11.356.jar
-rm aws-java-sdk-s3-1.11.356.jar
+wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.10.6/aws-java-sdk-s3-1.10.6.jar
+cp aws-java-sdk-s3-1.10.6.jar $HADOOP_HOME/share/hadoop/tools/lib
+#tar xzf aws-java-sdk-s3-1.10.6.jar
+#rm aws-java-sdk-s3-1.10.6.jar
 
 cd ~/geomesa
 
@@ -238,11 +240,11 @@ source ~/.bash_profile
 
 cd ~
 
-# update Spark environment vars
-echo "export GEOMESA_VERSION=$GEOMESA_VERSION" >> $SPARK_HOME/conf/spark-env.sh
-echo "export SPARK_HOME=$SPARK_HOME" >> $SPARK_HOME/conf/spark-env.sh
-echo "export GEOMESA_FS_HOME=$GEOMESA_FS_HOME" >> $SPARK_HOME/conf/spark-env.sh
-echo "export HDFS_PATH=$HDFS_PATH" >> $SPARK_HOME/conf/spark-env.sh
+## update Spark environment vars - does nothing
+#echo "export GEOMESA_VERSION=$GEOMESA_VERSION" >> $SPARK_HOME/bin/load-spark-env.sh
+#echo "export SPARK_HOME=$SPARK_HOME" >> $SPARK_HOME/bin/load-spark-env.sh
+#echo "export GEOMESA_FS_HOME=$GEOMESA_FS_HOME" >> $SPARK_HOME/bin/load-spark-env.sh
+#echo "export HDFS_PATH=$HDFS_PATH" >> $SPARK_HOME/bin/load-spark-env.sh
 
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
