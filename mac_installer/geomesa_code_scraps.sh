@@ -1,7 +1,24 @@
 #!/usr/bin/env bash
 
 
-spark-submit --master yarn --deploy-mode cluster --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar /Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+#spark-submit \
+#--master yarn \
+#--deploy-mode cluster \
+#--conf spark.GEOMESA_VERSION=$GEOMESA_VERSION \
+#--conf spark.SPARK_HOME=SPARK_HOME \
+#--conf spark$GEOMESA_FS_HOME.=$GEOMESA_FS_HOME \
+#--conf spark.$HDFS_PATH=$HDFS_PATH \
+#--jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
+#--py-files ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz \
+#/Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+
+
+spark-submit \
+--master yarn \
+--deploy-mode cluster \
+--jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
+--py-files ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz \
+/Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
 
 spark-submit --master yarn --deploy-mode client --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar /Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
 

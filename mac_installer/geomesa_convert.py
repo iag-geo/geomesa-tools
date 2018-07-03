@@ -22,7 +22,7 @@ Notes:
 
 import argparse
 import datetime
-import geomesa_pyspark
+# import geomesa_pyspark
 import os
 import logging
 
@@ -43,6 +43,11 @@ def main():
     args = parser.parse_args()
 
     settings = dict()
+
+    print(os.environ.keys())
+    print(os.environ["HOME"])
+    print(os.environ["JAVA_HOME"])
+    print(os.environ["PYTHONPATH"])
 
     # Spark & GeoMesa environment vars
     settings["home"] = os.environ["HOME"]
@@ -135,28 +140,44 @@ def main():
 
 def get_spark_session(settings):
     # set Spark config
-    conf = geomesa_pyspark.configure(
-        jars=[settings["geomesa_fs_spark_jar"]],
-        packages=["geomesa_pyspark", "pytz"],
-        spark_home=settings["spark_home"]) \
-        .setAppName("Geomesa conversion test")
+    # conf = geomesa_pyspark.configure(
+    #     jars=[settings["geomesa_fs_spark_jar"]],
+    #     packages=["geomesa_pyspark", "pytz"],
+    #     spark_home=settings["spark_home"]) \
+    #     .setAppName("Geomesa conversion test")
+    #
+    # conf.set("spark.hadoop.fs.s3.fast.upload", "true")
+    # conf.set("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")
+    # conf.set("spark.speculation", "false")
+    # conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    # conf.set("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator")
+    # # conf.set("spark.shuffle.service.enabled", "true")
+    # # conf.set("spark.dynamicAllocation.enabled", "true")
+    #
+    # conf.get("spark.master")
 
-    conf.set("spark.hadoop.fs.s3.fast.upload", "true")
-    conf.set("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")
-    conf.set("spark.speculation", "false")
-    conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    conf.set("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator")
-    # conf.set("spark.shuffle.service.enabled", "true")
-    # conf.set("spark.dynamicAllocation.enabled", "true")
-
-    conf.get("spark.master")
+    # >> > spark = SparkSession.builder \
+    #     ....master("local") \
+    #     ....appName("Word Count") \
+    #     ....config("spark.some.config.option", "some-value") \
+    #     ....getOrCreate()
 
     # create the SparkSession
-    spark = SparkSession \
-        .builder \
-        .config(conf=conf) \
-        .enableHiveSupport() \
+    spark = SparkSession.builder \
+        .master("local") \
+        .appName("Geomesa conversion test") \
+        .config("spark.hadoop.fs.s3.fast.upload", "true") \
+        .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
+        .config("spark.speculation", "false") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
         .getOrCreate()
+
+        # .config(conf=conf) \
+        # .enableHiveSupport() \
+
+    spark.addPyFile("~/geomesa/geomesa-geomesa_2.11-{0}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-{0}.tar.gz"
+            .format(settings["geomesa_version"],))
 
     return spark
 
