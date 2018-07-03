@@ -154,11 +154,14 @@ cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar $SPARK_HOM
 cd $SPARK_HOME/jars
 
 #wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.356/aws-java-sdk-1.11.356.jar
+#cp aws-java-sdk-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
 #tar xzf aws-java-sdk-1.11.356.jar
 #rm aws-java-sdk-1.11.356.jar
 
-wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.10.6/aws-java-sdk-s3-1.10.6.jar
-cp aws-java-sdk-s3-1.10.6.jar $HADOOP_HOME/share/hadoop/tools/lib
+mkdir ~/geomesa/aws
+cd ~/geomesa/aws
+wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
+#cp aws-java-sdk-s3-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
 #tar xzf aws-java-sdk-s3-1.10.6.jar
 #rm aws-java-sdk-s3-1.10.6.jar
 
