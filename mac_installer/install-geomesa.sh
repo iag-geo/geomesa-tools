@@ -39,7 +39,7 @@ echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
 echo "export HADOOP_VERSION=2.7.6" >> ~/.bash_profile
-echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
+echo "export SPARK_VERSION=2.2.1" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
@@ -69,8 +69,8 @@ source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
 source ~/.bash_profile
 
-mkdir -p $HADOOP_HOME/dfs/data_node
-mkdir -p $HADOOP_HOME/dfs/name_node
+#mkdir -p $HADOOP_HOME/dfs/data_node
+#mkdir -p $HADOOP_HOME/dfs/name_node
 
 # configure Hadoop environment
 sed -i -e "s%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true\"%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc=\"%g" $HADOOP_CONF_DIR/hadoop-env.sh
@@ -115,9 +115,9 @@ wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-s
 
 cd ~/geomesa
 
-# reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
-cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
-sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=DEBUG, console/g" $SPARK_HOME/conf/log4j.properties
+## reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
+#cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
+#sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g" $SPARK_HOME/conf/log4j.properties
 
 # download and install GeoMesa FileSystem Datastore
 echo "-------------------------------------------------------------------------"
