@@ -40,7 +40,7 @@ echo "# -----------------------------------------------------------------------"
 echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
-echo "export HADOOP_VERSION=2.8.4" >> ~/.bash_profile
+echo "export HADOOP_VERSION=2.7.3" >> ~/.bash_profile
 echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
 source ~/.bash_profile
 
@@ -152,15 +152,12 @@ source ~/.bash_profile
 cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar $SPARK_HOME/jars
 
 cd $SPARK_HOME/jars
-
-#wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.356/aws-java-sdk-1.11.356.jar
+wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
 #cp aws-java-sdk-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
 #tar xzf aws-java-sdk-1.11.356.jar
 #rm aws-java-sdk-1.11.356.jar
 
-mkdir ~/geomesa/aws
-cd ~/geomesa/aws
-wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
+#wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
 #cp aws-java-sdk-s3-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
 #tar xzf aws-java-sdk-s3-1.10.6.jar
 #rm aws-java-sdk-s3-1.10.6.jar

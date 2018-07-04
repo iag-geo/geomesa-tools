@@ -16,9 +16,13 @@
 spark-submit \
 --master yarn \
 --deploy-mode cluster \
---jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
+--jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar,$SPARK_HOME/jars/hadoop-aws-$HADOOP_VERSION.jar,$SPARK_HOME/jars/aws-java-sdk-1.7.4.jar \
 --py-files ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz \
-/Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+~/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+
+
+--class org.apache.hadoop.fs.s3a.S3AFileSystem \
+
 
 spark-submit --master yarn --deploy-mode client --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar /Users/hugh.saalmans/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
 

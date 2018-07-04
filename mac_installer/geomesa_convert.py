@@ -169,7 +169,7 @@ def get_spark_session(settings):
     spark = SparkSession.builder \
         .master("local") \
         .appName("Geomesa conversion test") \
-        .config("spark.jars", "hadoop-aws-2.8.4.jar") \
+        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3.fast.upload", "true") \
         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
         .config("spark.speculation", "false") \
