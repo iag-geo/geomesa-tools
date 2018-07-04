@@ -2,8 +2,6 @@
 
 #----------------------------------------------------------------------------------------------------------------------
 #
-#  THIS DOES NOT WORK (YET)
-#
 # Purpose: Installs GeoMesa FileSystem Datastore and GeoMesa Spark on a standalone Mac
 #
 # Organisation: IAG
@@ -40,7 +38,7 @@ echo "# -----------------------------------------------------------------------"
 echo -e "\n# version numbers" >> ~/.bash_profile
 echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
-echo "export HADOOP_VERSION=2.7.3" >> ~/.bash_profile
+echo "export HADOOP_VERSION=2.7.6" >> ~/.bash_profile
 echo "export SPARK_VERSION=2.3.1" >> ~/.bash_profile
 source ~/.bash_profile
 
@@ -52,46 +50,20 @@ brew install scala@2.11
 
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
-#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install -I py4j==0.10.4
-#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install pytz
-#/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install pyspark
-
-echo "-------------------------------------------------------------------------"
-echo "Setting server environment"
-echo "-------------------------------------------------------------------------"
-
-# add paths to ~/.bash_profile
 
 echo -e "\n# Java & Scala paths" >> ~/.bash_profile
 echo "export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home" >> ~/.bash_profile
 echo "export SCALA_HOME=/usr/local/opt/scala@2.11" >> ~/.bash_profile
 source ~/.bash_profile
 
-#echo -e "\n# Spark path" >> ~/.bash_profile
-#echo "export SPARK_HOME=/usr/local/Cellar/apache-spark/2.3.1/libexec" >> ~/.bash_profile
-##echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip" >> ~/.bash_profile
-#source ~/.bash_profile
-
-#echo "-------------------------------------------------------------------------"
-#echo "Installing Hive + Hadoop"
-#echo "-------------------------------------------------------------------------"
-#brew install hive
-#echo -e "\n# Hadoop & Hive paths" >> ~/.bash_profile
-#echo "export HADOOP_HOME=/usr/local/Cellar/hadoop/$HADOOP_VERSION" >> ~/.bash_profile
-#echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
-#echo "export HIVE_HOME=/usr/local/Cellar/give/$HIVE_VERSION" >> ~/.bash_profile
-#source ~/.bash_profile
-
 echo "-------------------------------------------------------------------------"
 echo "Installing Hadoop"
 echo "-------------------------------------------------------------------------"
-#brew install hadoop
 wget http://apache.mirror.amaze.com.au/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 tar xzf hadoop-$HADOOP_VERSION.tar.gz
 rm hadoop-$HADOOP_VERSION.tar.gz
 
 echo -e "\n# Hadoop paths" >> ~/.bash_profile
-#echo "export HADOOP_HOME=/usr/local/Cellar/hadoop/$HADOOP_VERSION" >> ~/.bash_profile
 echo "export HADOOP_HOME=~/geomesa/hadoop-$HADOOP_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
@@ -104,14 +76,14 @@ mkdir -p $HADOOP_HOME/dfs/name_node
 sed -i -e "s%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true\"%export HADOOP_OPTS=\"\$HADOOP_OPTS -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc=\"%g" $HADOOP_CONF_DIR/hadoop-env.sh
 
 sed -i -e "s%</configuration>%<property><name>fs.defaultFS</name><value>hdfs://127.0.0.1</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
-sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>$HADOOP_HOME/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
+#sed -i -e "s%</configuration>%<property><name>hadoop.tmp.dir</name><value>$HADOOP_HOME/hdfs/tmp</value></property></configuration>%g" $HADOOP_CONF_DIR/core-site.xml
 
 sed -i -e "s%</configuration>%<property><name>dfs.replication</name><value>1</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
-sed -i -e "s%</configuration>%<property><name>dfs.datanode.data.dir</name><value>$HADOOP_HOME/dfs/data_node</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
-sed -i -e "s%</configuration>%<property><name>dfs.name.data.dir</name><value>$HADOOP_HOME/dfs/name_node</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
+#sed -i -e "s%</configuration>%<property><name>dfs.datanode.data.dir</name><value>$HADOOP_HOME/dfs/data_node</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
+#sed -i -e "s%</configuration>%<property><name>dfs.name.data.dir</name><value>$HADOOP_HOME/dfs/name_node</value></property></configuration>%g" $HADOOP_CONF_DIR/hdfs-site.xml
 
 sed -i -e "s%</configuration>%<property><name>yarn.nodemanager.aux-services</name><value>mapreduce_shuffle</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
-sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
+#sed -i -e "s%</configuration>%<property><name>yarn.resourcemanager.address</name><value>127.0.0.1:8032</value></property></configuration>%g" $HADOOP_CONF_DIR/yarn-site.xml
 
 cp $HADOOP_CONF_DIR/mapred-site.xml.template $HADOOP_CONF_DIR/mapred-site.xml
 sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name><value>yarn</value></property></configuration>%g" $HADOOP_CONF_DIR/mapred-site.xml
@@ -120,19 +92,6 @@ sed -i -e "s%</configuration>%<property><name>mapreduce.framework.name</name><va
 # fix for Mac (for Hadoop 2.8.x and 2.9.x)
 sed -i -e "s%export JAVA_HOME=(\$(/usr/libexec/java_home))%export JAVA_HOME=\$(/usr/libexec/java_home)%g" $HADOOP_HOME/libexec/hadoop-config.sh
 sed -i -e "s%export JAVA_HOME=(/Library/Java/Home)%export JAVA_HOME=/Library/Java/Home%g" $HADOOP_HOME/libexec/hadoop-config.sh
-
-#. $HADOOP_CONF_DIR/hadoop-env.sh
-#. $HADOOP_CONF_DIR/yarn-env.sh
-
-#echo "-------------------------------------------------------------------------"
-#echo "Installing Hive"
-#echo "-------------------------------------------------------------------------"
-#brew install hive
-#echo -e "\n# Hive path" >> ~/.bash_profile
-##echo "export HADOOP_HOME=/usr/local/Cellar/hadoop/$HADOOP_VERSION" >> ~/.bash_profile
-##echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
-#echo "export HIVE_HOME=/usr/local/Cellar/give/$HIVE_VERSION" >> ~/.bash_profile
-#source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"
 echo "Installing Spark"
@@ -153,20 +112,12 @@ cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar $SPARK_HOM
 
 cd $SPARK_HOME/jars
 wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
-#cp aws-java-sdk-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
-#tar xzf aws-java-sdk-1.11.356.jar
-#rm aws-java-sdk-1.11.356.jar
-
-#wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.356/aws-java-sdk-s3-1.11.356.jar
-#cp aws-java-sdk-s3-1.11.356.jar $HADOOP_HOME/share/hadoop/tools/lib
-#tar xzf aws-java-sdk-s3-1.10.6.jar
-#rm aws-java-sdk-s3-1.10.6.jar
 
 cd ~/geomesa
 
-## reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
-#cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
-#sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g" $SPARK_HOME/conf/log4j.properties
+# reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
+cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
+sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=DEBUG, console/g" $SPARK_HOME/conf/log4j.properties
 
 # download and install GeoMesa FileSystem Datastore
 echo "-------------------------------------------------------------------------"
@@ -174,12 +125,9 @@ echo "Installing GeoMesa FileSystem Datastore"
 echo "-------------------------------------------------------------------------"
 wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-$GEOMESA_VERSION/geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz"
 tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
-#sudo mv geomesa-fs_2.11-$GEOMESA_VERSION /usr/local/geomesa-fs_2.11-$GEOMESA_VERSION
 rm geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 echo -e "\n# Geomesa FileStore path" >> ~/.bash_profile
 echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-$GEOMESA_VERSION" >> ~/.bash_profile
-#source ~/.bash_profile
-#echo "export PATH=$GEOMESA_FS_HOME/bin:${PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 # install maven to build GeoMesa Spark
@@ -188,7 +136,6 @@ echo "Installing Maven"
 echo "-------------------------------------------------------------------------"
 wget "http://mirror.olnevhost.net/pub/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
 tar xzf apache-maven-$MAVEN_VERSION-bin.tar.gz
-#sudo mv apache-maven-$MAVEN_VERSION /usr/local/apache-maven-$MAVEN_VERSION
 rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 echo -e "\n# maven home" >> ~/.bash_profile
 echo "export MAVEN_HOME=~/geomesa/apache-maven-$MAVEN_VERSION/bin" >> ~/.bash_profile
@@ -228,10 +175,6 @@ cd $HADOOP_HOME/sbin
 . start-dfs.sh
 . start-yarn.sh
 
-## create folders in HDFS
-#$HADOOP_HOME/bin/hdfs dfs -mkdir /user
-#$HADOOP_HOME/bin/hdfs dfs -mkdir /user/$USER
-
 # get HDFS path
 TEMP_HDFS_PATH="$($HADOOP_HOME/bin/hdfs getconf -confKey fs.defaultFS)"
 echo -e "\n# local HDFS path (for temp files)" >> ~/.bash_profile
@@ -239,12 +182,6 @@ echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
 cd ~
-
-## update Spark environment vars - does nothing
-#echo "export GEOMESA_VERSION=$GEOMESA_VERSION" >> $SPARK_HOME/bin/load-spark-env.sh
-#echo "export SPARK_HOME=$SPARK_HOME" >> $SPARK_HOME/bin/load-spark-env.sh
-#echo "export GEOMESA_FS_HOME=$GEOMESA_FS_HOME" >> $SPARK_HOME/bin/load-spark-env.sh
-#echo "export HDFS_PATH=$HDFS_PATH" >> $SPARK_HOME/bin/load-spark-env.sh
 
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
