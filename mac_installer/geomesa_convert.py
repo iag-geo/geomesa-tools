@@ -64,7 +64,7 @@ def main():
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
-    settings["end_date"] = "2017-05-01"
+    settings["end_date"] = "2017-05-02"
 
     # name of the GeoMesa schema, aka feature name
     settings["geomesa_schema"] = "gdelt"
