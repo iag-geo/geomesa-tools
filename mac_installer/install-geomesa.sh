@@ -91,7 +91,7 @@ rm spark-$SPARK_VERSION-bin-hadoop2.7.tgz
 echo -e "\n# Spark paths" >> ~/.bash_profile
 echo "export SPARK_HOME=~/geomesa/spark-$SPARK_VERSION-bin-hadoop2.7" >> ~/.bash_profile
 source ~/.bash_profile
-echo "export PATH=\$JAVA_HOME/bin:\$SCALA_HOME/bin:\$SPARK_HOME:\$SPARK_HOME/bin:\$SPARK_HOME/sbin:\$HADOOP_HOME:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH" >> ~/.bash_profile
+#echo "export PATH=\$JAVA_HOME/bin:\$SCALA_HOME/bin:\$SPARK_HOME:\$SPARK_HOME/bin:\$SPARK_HOME/sbin:\$HADOOP_HOME:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH" >> ~/.bash_profile
 source ~/.bash_profile
 
 # add required jar files
@@ -112,10 +112,12 @@ echo "-------------------------------------------------------------------------"
 wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-$GEOMESA_VERSION/geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz"
 tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 rm geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
-
 echo -e "\n# Geomesa FileStore path" >> ~/.bash_profile
 echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-$GEOMESA_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
+
+# copy Snappy JAR file to allow Geomesa fs to support it
+cp $SPARK_HOME/jars/snappy-java-1.1.2.6.jar $GEOMESA_FS_HOME/lib
 
 # install maven to build GeoMesa Spark
 echo "-------------------------------------------------------------------------"
@@ -155,13 +157,14 @@ echo "Starting Hadoop"
 echo "-------------------------------------------------------------------------"
 
 # create hadoop file store (HDFS)
-cd $HADOOP_HOME
-bin/hdfs namenode -format
+cd $HADOOP_HOME/bin
+hdfs namenode -format
 
 # start hadoop
 cd $HADOOP_HOME/sbin
 . start-dfs.sh
 . start-yarn.sh
+cd ~
 
 # get HDFS path
 TEMP_HDFS_PATH="$($HADOOP_HOME/bin/hdfs getconf -confKey fs.defaultFS)"
@@ -169,13 +172,12 @@ echo -e "\n# local HDFS path (for temp files)" >> ~/.bash_profile
 echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> ~/.bash_profile
 source ~/.bash_profile
 
-cd ~
-
 echo -e "\n# -----------------------------------------------------------------------" >> ~/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
 duration=$SECONDS
+
 
 echo "-------------------------------------------------------------------------"
 echo "GeoMesa install finished in $(($duration / 60))m $(($duration % 60))s"
@@ -185,3 +187,4 @@ echo "-------------------------------------------------------------------------"
 #cd $HADOOP_HOME/sbin
 #. stop-dfs.sh
 #. stop-yarn.sh
+#cd ~

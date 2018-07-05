@@ -81,9 +81,9 @@ def main():
     settings["source_s3_bucket"] = "gdelt-open-data"
     settings["source_s3_directory"] = "events"
 
-    settings["target_local_directory"] = args.target_directory
-    # settings["target_local_directory"] = "file:///" + args.target_directory
-    # settings["target_local_directory"] = settings["target_local_directory"].replace("////", "///")
+    settings["target_local_directory"] = "file://" + args.target_directory
+
+    # logger.info("Output directory is : {}".format(settings["target_local_directory"],))
 
     # number of reducers for GeoMesa ingest (determines how the reduce tasks get split up)
     settings["num_reducers"] = 16
@@ -106,6 +106,8 @@ def main():
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
     settings["temp_hdfs_path"] = "{}/user/temp/geomesa_ingest".format(settings["hdfs_path"], )
 
+    # settings["target_local_directory"] = "{}/user/tmp/geomesa_output".format(settings["hdfs_path"], )
+
     # The GeoMesa ingest Bash command
     settings["ingest_command_line"] = """{0}/bin/geomesa-fs ingest \
                                             --path '{1}' \
@@ -116,10 +118,13 @@ def main():
                                             --partition-scheme {5} \
                                             --leaf-storage true \
                                             --num-reducers {6} \
+                                            --run-mode local \
                                             '{7}/*.csv'""" \
         .format(settings["geomesa_fs_home"], settings["target_local_directory"], settings["geomesa_schema"],
                 settings["sft_config"], settings["sft_converter"], settings["partition_schema"],
                 settings["num_reducers"], settings["temp_hdfs_path"])
+
+    # logger.info("Geomesa ingest command is : {}".format(settings["ingest_command_line"], ))
 
     # 1 - create a Spark session
     spark = get_spark_session(settings)
@@ -135,29 +140,6 @@ def main():
 
 
 def get_spark_session(settings):
-    # set Spark config
-    # conf = geomesa_pyspark.configure(
-    #     jars=[settings["geomesa_fs_spark_jar"]],
-    #     packages=["geomesa_pyspark", "pytz"],
-    #     spark_home=settings["spark_home"]) \
-    #     .setAppName("Geomesa conversion test")
-    #
-    # conf.set("spark.hadoop.fs.s3.fast.upload", "true")
-    # conf.set("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2")
-    # conf.set("spark.speculation", "false")
-    # conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    # conf.set("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator")
-    # # conf.set("spark.shuffle.service.enabled", "true")
-    # # conf.set("spark.dynamicAllocation.enabled", "true")
-    #
-    # conf.get("spark.master")
-
-    # >> > spark = SparkSession.builder \
-    #     ....master("local") \
-    #     ....appName("Word Count") \
-    #     ....config("spark.some.config.option", "some-value") \
-    #     ....getOrCreate()
-
     # create the SparkSession
     spark = SparkSession.builder \
         .master("local") \
@@ -172,11 +154,8 @@ def get_spark_session(settings):
 
     # .config("spark.jars", "~/geomesa/aws/aws-java-sdk-s3-1.11.356.jar") \
 
-        # .config(conf=conf) \
-        # .enableHiveSupport() \
-
-    # spark.addPyFile("~/geomesa/geomesa-geomesa_2.11-{0}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-{0}.tar.gz"
-    #         .format(settings["geomesa_version"],))
+    # .config(conf=conf) \
+    # .enableHiveSupport() \
 
     return spark
 
