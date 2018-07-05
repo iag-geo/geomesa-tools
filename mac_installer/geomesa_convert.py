@@ -1,11 +1,11 @@
 """ -------------------------------------------------------------------------------------------------------------------
 
-Purpose: Takes GDELT data on S3, filters it & converts it to GeoMesa Parquet using Pyspark on an AWS EMR instance
+Purpose: Takes GDELT data on S3, filters it & converts it to GeoMesa Parquet using Pyspark on a standalone instance
 
 Workflow:
   1. create Spark dataframe from delimited text files on S3
   2. filter data using SparkSQL and output to temp HDFS directory as delimited text
-  3. convert temp HDFS data into GeoMesa parquet format and output to S3
+  3. convert temp HDFS data into GeoMesa parquet format and output to a local directory
 
 Organisation: IAG
 Author: Hugh Saalmans, Product Innovation
@@ -35,7 +35,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description='Takes GDELT data on S3, filters it & converts it to GeoMesa Parquet format '
-                    'using Pyspark on an AWS EMR instance')
+                    'using Pyspark on a standalone instance')
 
     parser.add_argument(
         '--target-directory', help='A local directory for the output GeoMesa Parquet files')
@@ -44,35 +44,30 @@ def main():
 
     settings = dict()
 
-    # print(os.environ.keys())
-    # print(os.environ["HOME"])
-    # print(os.environ["JAVA_HOME"])
-    # print(os.environ["PYTHONPATH"])
-
     # -----------------------------------------------------------------------------------------------------------------
     # Edit these to taste (feel free to convert these to runtime arguments)
     # -----------------------------------------------------------------------------------------------------------------
 
-    # software versions
+    # software versions (must match the ones in install-geomesa.sh)
     settings["geomesa_version"] = "2.0.2"
-    settings["spark_version"] = "3.2.1"
+    # settings["spark_version"] = "2.2.1"
 
     # environment settings - can't use Mac env vars as Spark env is different
-    settings["home"] = os.path.realpath(__file__)
+    settings["home"] = os.path.dirname(os.path.realpath(__file__))
     settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
-    settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
+    # settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
     settings["hdfs_path"] = "hdfs://127.0.0.1"
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
-    settings["end_date"] = "2017-05-02"
+    settings["end_date"] = "2017-05-01"
 
     # name of the GeoMesa schema, aka feature name
     settings["geomesa_schema"] = "gdelt"
 
     # SimpleFeatureType & Converter - can be an existing sft or a config file
-    settings["sft_config"] = "{}/gdelt.conf".format(settings["home"],)
-    settings["sft_converter"] = "{}/gdelt.conf".format(settings["home"],)
+    settings["sft_config"] = "file://{}/gdelt.conf".format(settings["home"],)
+    settings["sft_converter"] = "file://{}/gdelt.conf".format(settings["home"],)
 
     # GeoMesa partition schema to use, note: leaf storage is set to true
     settings["partition_schema"] = "daily,z2-4bit"
@@ -87,9 +82,8 @@ def main():
     settings["source_s3_directory"] = "events"
 
     settings["target_local_directory"] = args.target_directory
-
-    # settings["target_s3_bucket"] = args.target_s3_bucket
-    # settings["target_s3_directory"] = "geomesa_test"
+    # settings["target_local_directory"] = "file:///" + args.target_directory
+    # settings["target_local_directory"] = settings["target_local_directory"].replace("////", "///")
 
     # number of reducers for GeoMesa ingest (determines how the reduce tasks get split up)
     settings["num_reducers"] = 16
@@ -111,7 +105,6 @@ def main():
     # set S3 and HDFS paths - must use the s3a:// prefix for S3 files
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
     settings["temp_hdfs_path"] = "{}/user/temp/geomesa_ingest".format(settings["hdfs_path"], )
-    # settings["target_s3_path"] = "s3a://{}/{}".format(settings["target_s3_bucket"], settings["target_s3_directory"])
 
     # The GeoMesa ingest Bash command
     settings["ingest_command_line"] = """{0}/bin/geomesa-fs ingest \
@@ -277,7 +270,7 @@ def run_geomesa_query(settings, spark):
         .read \
         .format("geomesa") \
         .option("geomesa.feature", settings["geomesa_schema"]) \
-        .option("fs.path", settings["target_s3_path"]) \
+        .option("fs.path", settings["target_local_directory"]) \
         .load()
 
     geomesa_data_frame.createOrReplaceTempView("points")
