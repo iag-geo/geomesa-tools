@@ -7,7 +7,6 @@ Contains install scripts and a Python script for loading, converting & querying 
 
 This guide & code will deploy the following stack on your Mac:
 
-- EMRFS using AWS S3
 - Hadoop with YARN
 - Spark with Pyspark
 - GeoMesa FileSystem Datastore
@@ -34,12 +33,13 @@ export AWS_SECRET_ACCESS_KEY=<yourSecretAccessKey>
 1. Wait 6-10 mins depending on your Internet connection and check the on-screen log for success
 
 ### Step 3 - Do something with GeoMesa
-Run this command!
+1. Go to the directory containing this file
+2. Run this command:
 
 ```bash
-spark-submit --master local \
+spark-submit --master local[4] \
 --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
-~/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+geomesa_convert.py --target-directory ~/tmp/geomesa_test
 ```
 
 **If all goes well, the script will:**
