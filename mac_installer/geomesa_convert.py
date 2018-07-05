@@ -58,6 +58,10 @@ def main():
     # settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
     settings["hdfs_path"] = "hdfs://127.0.0.1"
 
+    # Geomesa FileStore Spark JAR file path
+    settings["geomesa_fs_spark_jar"] = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
+        .format(settings["geomesa_fs_home"], settings["geomesa_version"])
+
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
     settings["end_date"] = "2017-05-01"
@@ -144,6 +148,7 @@ def get_spark_session(settings):
     spark = SparkSession.builder \
         .master("local") \
         .appName("Geomesa conversion test") \
+        .config("spark.jars", settings["geomesa_fs_spark_jar"]) \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3.fast.upload", "true") \
         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
@@ -152,9 +157,6 @@ def get_spark_session(settings):
         .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
         .getOrCreate()
 
-    # .config("spark.jars", "~/geomesa/aws/aws-java-sdk-s3-1.11.356.jar") \
-
-    # .config(conf=conf) \
     # .enableHiveSupport() \
 
     return spark
