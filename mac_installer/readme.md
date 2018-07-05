@@ -1,8 +1,5 @@
-# WORKS IN PROGRESS - DOESN'T YET WORK: GeoMesa Standalone on Mac
+# GeoMesa Standalone on Mac
 A simplified way to get GeoMesa running standalone on your Mac.
-
-ETC...
-
 
 Contains install scripts and a Python script for loading, converting & querying [GDELT](https://www.gdeltproject.org/) data in S3 using GeoMesa on Spark.
 
