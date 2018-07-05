@@ -17,17 +17,17 @@
 #
 #----------------------------------------------------------------------------------------------------------------------
 
-# record how long this script takes (8-10 mins usually)
+# record how long this script takes (6-10 mins with a good Internet connection)
 SECONDS=0
 
-# setup SSH key pair for hadoop to connect to localhost
+# setup an SSH key pair for hadoop to connect to localhost
 echo | ssh-keygen -t rsa -P ""
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
-# use wget to download files
+# install wget for downloading files
 brew install wget
 
-# create new directory to put geomesa in
+# create new directory to install Spark, Hadoop and Geomesa in
 mkdir ~/geomesa
 cd ~/geomesa
 
@@ -35,9 +35,10 @@ echo -e "\n# -------------------------------------------------------------------
 echo "# GEOMESA SETTINGS - start" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
+# set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
 echo -e "\n# version numbers" >> ~/.bash_profile
-echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export MAVEN_VERSION=3.5.3" >> ~/.bash_profile
+echo "export GEOMESA_VERSION=2.0.2" >> ~/.bash_profile
 echo "export HADOOP_VERSION=2.7.6" >> ~/.bash_profile
 echo "export SPARK_VERSION=2.2.1" >> ~/.bash_profile
 source ~/.bash_profile
@@ -47,12 +48,12 @@ echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 brew cask install java8
 brew install scala@2.11
-
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
 
 echo -e "\n# Java & Scala paths" >> ~/.bash_profile
-echo "export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home" >> ~/.bash_profile
+#echo "export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home" >> ~/.bash_profile
+echo "export JAVA_HOME=/Library/Java/Home" >> ~/.bash_profile
 echo "export SCALA_HOME=/usr/local/opt/scala@2.11" >> ~/.bash_profile
 source ~/.bash_profile
 
@@ -64,7 +65,7 @@ tar xzf hadoop-$HADOOP_VERSION.tar.gz
 rm hadoop-$HADOOP_VERSION.tar.gz
 
 echo -e "\n# Hadoop paths" >> ~/.bash_profile
-echo "export HADOOP_HOME=~/geomesa/hadoop-$HADOOP_VERSION" >> ~/.bash_profile
+echo "export HADOOP_HOME=~/geomesa/hadoop-\$HADOOP_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=\$HADOOP_HOME/etc/hadoop" >> ~/.bash_profile
 source ~/.bash_profile
@@ -89,7 +90,7 @@ tar -xzf spark-$SPARK_VERSION-bin-hadoop2.7.tgz
 rm spark-$SPARK_VERSION-bin-hadoop2.7.tgz
 
 echo -e "\n# Spark paths" >> ~/.bash_profile
-echo "export SPARK_HOME=~/geomesa/spark-$SPARK_VERSION-bin-hadoop2.7" >> ~/.bash_profile
+echo "export SPARK_HOME=~/geomesa/spark-\$SPARK_VERSION-bin-hadoop2.7" >> ~/.bash_profile
 source ~/.bash_profile
 #echo "export PATH=\$JAVA_HOME/bin:\$SCALA_HOME/bin:\$SPARK_HOME:\$SPARK_HOME/bin:\$SPARK_HOME/sbin:\$HADOOP_HOME:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH" >> ~/.bash_profile
 source ~/.bash_profile
@@ -99,7 +100,7 @@ cd $SPARK_HOME/jars
 cp $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-$HADOOP_VERSION.jar .
 wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
 
-# reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages)
+# reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages) - to avoid the default belch of logging
 cp $SPARK_HOME/conf/log4j.properties.template $SPARK_HOME/conf/log4j.properties
 sed -i -e "s/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g" $SPARK_HOME/conf/log4j.properties
 
@@ -113,13 +114,13 @@ wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-$GE
 tar xzf geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 rm geomesa-fs_2.11-$GEOMESA_VERSION-bin.tar.gz
 echo -e "\n# Geomesa FileStore path" >> ~/.bash_profile
-echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-$GEOMESA_VERSION" >> ~/.bash_profile
+echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-\$GEOMESA_VERSION" >> ~/.bash_profile
 source ~/.bash_profile
 
-# copy Snappy JAR file to allow Geomesa fs to support it
+# copy Snappy JAR file to allow Geomesa FS to support it
 cp $SPARK_HOME/jars/snappy-java-1.1.2.6.jar $GEOMESA_FS_HOME/lib
 
-# install maven to build GeoMesa Spark
+# install Maven to build GeoMesa Spark
 echo "-------------------------------------------------------------------------"
 echo "Installing Maven"
 echo "-------------------------------------------------------------------------"
@@ -177,7 +178,6 @@ echo "# GEOMESA SETTINGS - end" >> ~/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ~/.bash_profile
 
 duration=$SECONDS
-
 
 echo "-------------------------------------------------------------------------"
 echo "GeoMesa install finished in $(($duration / 60))m $(($duration % 60))s"
