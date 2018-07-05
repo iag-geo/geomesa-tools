@@ -144,7 +144,7 @@ cd ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark
 cp -R ~/geomesa/geomesa-geomesa_2.11-$GEOMESA_VERSION/build ./build/
 
 echo "-------------------------------------------------------------------------"
-echo "Building GeoMesa Spark (~5-10 mins)"
+echo "Building GeoMesa Spark (~2-5 mins)"
 echo "-------------------------------------------------------------------------"
 $MAVEN_HOME/mvn clean install -D skipTests -P python > ~/geomesa/maven_geomesa_spark_build.log
 
@@ -158,13 +158,12 @@ echo "Starting Hadoop"
 echo "-------------------------------------------------------------------------"
 
 # create hadoop file store (HDFS)
-cd $HADOOP_HOME/bin
-hdfs namenode -format
+cd $HADOOP_HOME
+bin/hdfs namenode -format
 
 # start hadoop
-cd $HADOOP_HOME/sbin
-. start-dfs.sh
-. start-yarn.sh
+sbin/start-dfs.sh
+sbin/start-yarn.sh
 cd ~
 
 # get HDFS path
@@ -184,7 +183,7 @@ echo "GeoMesa install finished in $(($duration / 60))m $(($duration % 60))s"
 echo "-------------------------------------------------------------------------"
 
 ## commands to stop Hadoop + YARN
-#cd $HADOOP_HOME/sbin
-#. stop-dfs.sh
-#. stop-yarn.sh
+#cd $HADOOP_HOME
+#sbin/stop-dfs.sh
+#sbin/stop-yarn.sh
 #cd ~

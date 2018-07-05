@@ -15,7 +15,7 @@
 
 
 
-spark-submit --master local geomesa_convert.py --target-directory ~/tmp/geomesa_test
+spark-submit --master local --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar geomesa_convert.py --target-directory ~/tmp/geomesa_test
 
 
 

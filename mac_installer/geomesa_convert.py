@@ -58,9 +58,9 @@ def main():
     # settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
     settings["hdfs_path"] = "hdfs://127.0.0.1"
 
-    # Geomesa FileStore Spark JAR file path
-    settings["geomesa_fs_spark_jar"] = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
-        .format(settings["geomesa_fs_home"], settings["geomesa_version"])
+    # # Geomesa FileStore Spark JAR file path
+    # settings["geomesa_fs_spark_jar"] = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
+    #     .format(settings["geomesa_fs_home"], settings["geomesa_version"])
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
@@ -110,8 +110,6 @@ def main():
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
     settings["temp_hdfs_path"] = "{}/user/temp/geomesa_ingest".format(settings["hdfs_path"], )
 
-    # settings["target_local_directory"] = "{}/user/tmp/geomesa_output".format(settings["hdfs_path"], )
-
     # The GeoMesa ingest Bash command
     settings["ingest_command_line"] = """{0}/bin/geomesa-fs ingest \
                                             --path '{1}' \
@@ -128,7 +126,7 @@ def main():
                 settings["sft_config"], settings["sft_converter"], settings["partition_schema"],
                 settings["num_reducers"], settings["temp_hdfs_path"])
 
-    # logger.info("Geomesa ingest command is : {}".format(settings["ingest_command_line"], ))
+    # logger.info("Geomesa ingest command : {}".format(settings["ingest_command_line"], ))
 
     # 1 - create a Spark session
     spark = get_spark_session(settings)
@@ -148,16 +146,12 @@ def get_spark_session(settings):
     spark = SparkSession.builder \
         .master("local") \
         .appName("Geomesa conversion test") \
-        .config("spark.jars", settings["geomesa_fs_spark_jar"]) \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-        .config("spark.hadoop.fs.s3.fast.upload", "true") \
         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
         .config("spark.speculation", "false") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
         .getOrCreate()
-
-    # .enableHiveSupport() \
 
     return spark
 

@@ -33,7 +33,7 @@ export AWS_SECRET_ACCESS_KEY=<yourSecretAccessKey>
 ### Step 2 - Install everything
 1. Open your preferred command line tool (Terminal, iTerm, emacs, etc...) and go to the directory containing this file
 1. Run `. install-geomesa.sh`
-1. You may be prompted to override your `id_rsa` SSH key file. Choose 'n' unless you have a good reason to replace the key. Your choice won't affect the install script
+1. You may be prompted to override your `id_rsa` SSH key file. Choose 'n' unless you have a reason to replace the key. Your choice won't affect the install script
 1. Wait 6-10 mins depending on your Internet connection and check the on-screen log for success
 
 ### Step 3 - Do something with GeoMesa
