@@ -43,47 +43,22 @@ def main():
 
     settings = dict()
 
-    # # create SparkSession
-    # spark = SparkSession.builder \
-    #     .master("local") \
-    #     .appName("Geomesa conversion test") \
-    #     .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
-    #     .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-    #     .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
-    #     .config("spark.speculation", "false") \
-    #     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-    #     .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
-    #     .getOrCreate()
-    #
-    # # get spark config settings
-    # spark_config = spark.sparkContext.conf
-    #
-    # # Geomesa Spark environment vars
-    # settings["geomesa_version"] = spark_config.get("spark.executorEnv.GEOMESA_VERSION")
-    # settings["geomesa_fs_home"] = spark_config.get("spark.executorEnv.GEOMESA_FS_HOME")
-    #
-    # # get Geomesa FileStore Spark JAR file path
-    # geomesa_fs_spark_jar = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar" \
-    #     .format(settings["geomesa_fs_home"], settings["geomesa_version"])
-    #
-    # logger.info("Geomesa FS JAR path : {}".format(geomesa_fs_spark_jar, ))
-    #
-    # # spark.sparkContext._conf.set("spark.jars", geomesa_fs_spark_jar)
-    #
-    # logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
+    # 1 - create a Spark session
+    spark = get_spark_session(settings)
+    logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
 
     # -----------------------------------------------------------------------------------------------------------------
     # Edit these to taste (feel free to convert these to runtime arguments)
     # -----------------------------------------------------------------------------------------------------------------
 
     # software versions (must match the ones in install-geomesa.sh)
-    settings["geomesa_version"] = "2.0.2"
+    # settings["geomesa_version"] = "2.0.2"
 
     # environment settings - can't use Mac env vars as Spark env is different
     settings["user_home"] = os.environ["HOME"]
     settings["home"] = os.path.dirname(os.path.realpath(__file__))
-    settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
-    settings["hdfs_path"] = "hdfs://127.0.0.1"
+    # settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
+    # settings["hdfs_path"] = "hdfs://127.0.0.1"
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
@@ -145,10 +120,6 @@ def main():
 
     # logger.info("Geomesa ingest command : {}".format(settings["ingest_command_line"], ))
 
-    # 1 - create a Spark session
-    spark = get_spark_session(settings)
-    logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
-
     # 3 - convert text files on S3 to GeoMesa parquet files on S3
     convert_to_geomesa_parquet(settings, spark)
 
@@ -163,13 +134,22 @@ def get_spark_session(settings):
     spark = SparkSession.builder \
         .master("local") \
         .appName("Geomesa conversion test") \
-        .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
         .config("spark.speculation", "false") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
         .getOrCreate()
+
+    # .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
+
+    # get environment variables from spark config settings
+    spark_config = spark.sparkContext._conf
+
+    # Geomesa Spark environment vars
+    settings["geomesa_version"] = spark_config.get("spark.executorEnv.GEOMESA_VERSION")
+    settings["geomesa_fs_home"] = spark_config.get("spark.executorEnv.GEOMESA_FS_HOME")
+    settings["hdfs_path"] = spark_config.get("spark.executorEnv.HDFS_PATH")
 
     return spark
 
