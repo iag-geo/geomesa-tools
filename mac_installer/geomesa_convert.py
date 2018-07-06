@@ -47,6 +47,7 @@ def main():
     spark = SparkSession.builder \
         .master("local") \
         .appName("Geomesa conversion test") \
+        .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
         .config("spark.speculation", "false") \
@@ -54,7 +55,7 @@ def main():
         .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
         .getOrCreate()
 
-    # .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
+
 
     # get spark config settings
     sparkConfig = spark.sparkContext._conf
@@ -67,9 +68,9 @@ def main():
     geomesa_fs_spark_jar = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar" \
         .format(settings["geomesa_fs_home"], settings["geomesa_version"])
 
-    # logger.info("Geomesa FS JAR path : {}".format(geomesa_fs_spark_jar, ))
+    logger.info("Geomesa FS JAR path : {}".format(geomesa_fs_spark_jar, ))
 
-    sparkConfig.set("spark.jars", geomesa_fs_spark_jar)
+    # spark.sparkContext._conf.set("spark.jars", geomesa_fs_spark_jar)
 
     logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
 
