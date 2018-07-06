@@ -55,7 +55,7 @@ def main():
     # settings["geomesa_version"] = "2.0.2"
 
     # environment settings - can't use Mac env vars as Spark env is different
-    settings["user_home"] = os.environ["HOME"]
+    # settings["user_home"] = os.environ["HOME"]
     settings["home"] = os.path.dirname(os.path.realpath(__file__))
     # settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
     # settings["hdfs_path"] = "hdfs://127.0.0.1"
