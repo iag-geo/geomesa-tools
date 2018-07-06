@@ -157,7 +157,7 @@ echo "-------------------------------------------------------------------------"
 echo "Starting Hadoop"
 echo "-------------------------------------------------------------------------"
 
-# create hadoop file store (HDFS)
+# initialise hadoop file store (HDFS)
 cd ${HADOOP_HOME}
 bin/hdfs namenode -format
 
