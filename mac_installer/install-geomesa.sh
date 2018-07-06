@@ -65,7 +65,7 @@ tar xzf hadoop-${HADOOP_VERSION}.tar.gz
 rm hadoop-${HADOOP_VERSION}.tar.gz
 
 echo -e "\n# Hadoop paths" >> ~/.bash_profile
-echo "export HADOOP_HOME=~/geomesa/hadoop-\${HADOOP_VERSION}" >> ~/.bash_profile
+echo "export HADOOP_HOME=${HOME}/geomesa/hadoop-\${HADOOP_VERSION}" >> ~/.bash_profile
 source ~/.bash_profile
 echo "export HADOOP_CONF_DIR=\${HADOOP_HOME}/etc/hadoop" >> ~/.bash_profile
 source ~/.bash_profile
@@ -90,7 +90,7 @@ tar -xzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 
 echo -e "\n# Spark paths" >> ~/.bash_profile
-echo "export SPARK_HOME=~/geomesa/spark-\${SPARK_VERSION}-bin-hadoop2.7" >> ~/.bash_profile
+echo "export SPARK_HOME=${HOME}/geomesa/spark-\${SPARK_VERSION}-bin-hadoop2.7" >> ~/.bash_profile
 source ~/.bash_profile
 #echo "export PATH=\${JAVA_HOME}/bin:\${SCALA_HOME}/bin:\${SPARK_HOME}:\${SPARK_HOME}/bin:\${SPARK_HOME}/sbin:\${HADOOP_HOME}:\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin:\${PATH}" >> ~/.bash_profile
 source ~/.bash_profile
@@ -114,7 +114,7 @@ wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-${G
 tar xzf geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 echo -e "\n# Geomesa FileStore path" >> ~/.bash_profile
-echo "export GEOMESA_FS_HOME=~/geomesa/geomesa-fs_2.11-\${GEOMESA_VERSION}" >> ~/.bash_profile
+echo "export GEOMESA_FS_HOME=${HOME}/geomesa/geomesa-fs_2.11-\${GEOMESA_VERSION}" >> ~/.bash_profile
 source ~/.bash_profile
 
 # copy Snappy JAR file to allow Geomesa FS to support it
@@ -129,7 +129,7 @@ tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz
 rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
 echo -e "\n# maven home" >> ~/.bash_profile
-echo "export MAVEN_HOME=~/geomesa/apache-maven-\${MAVEN_VERSION}/bin" >> ~/.bash_profile
+echo "export MAVEN_HOME=${HOME}/geomesa/apache-maven-\${MAVEN_VERSION}/bin" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "-------------------------------------------------------------------------"

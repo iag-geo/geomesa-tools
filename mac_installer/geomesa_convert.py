@@ -22,7 +22,6 @@ Notes:
 
 import argparse
 import datetime
-# import geomesa_pyspark
 import os
 import logging
 
@@ -44,23 +43,44 @@ def main():
 
     settings = dict()
 
+    # create SparkSession
+    spark = SparkSession.builder \
+        .master("local") \
+        .appName("Geomesa conversion test") \
+        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+        .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
+        .config("spark.speculation", "false") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
+        .getOrCreate()
+
+    # .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
+
+    # get spark config settings
+    sparkConfig = spark.sparkContext._conf
+
+    # Geomesa Spark environment vars
+    settings["geomesa_version"] = sparkConfig.get("spark.executorEnv.GEOMESA_VERSION")
+    settings["geomesa_fs_home"] = sparkConfig.get("spark.executorEnv.GEOMESA_FS_HOME")
+
+    # get Geomesa FileStore Spark JAR file path
+    geomesa_fs_spark_jar = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar" \
+        .format(settings["geomesa_fs_home"], settings["geomesa_version"])
+
+    # logger.info("Geomesa FS JAR path : {}".format(geomesa_fs_spark_jar, ))
+
+    sparkConfig.set("spark.jars", geomesa_fs_spark_jar)
+
+    logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
+
     # -----------------------------------------------------------------------------------------------------------------
     # Edit these to taste (feel free to convert these to runtime arguments)
     # -----------------------------------------------------------------------------------------------------------------
 
-    # software versions (must match the ones in install-geomesa.sh)
-    settings["geomesa_version"] = "2.0.2"
-    # settings["spark_version"] = "2.2.1"
-
     # environment settings - can't use Mac env vars as Spark env is different
+    settings["user_home"] = os.environ["HOME"]
     settings["home"] = os.path.dirname(os.path.realpath(__file__))
-    settings["geomesa_fs_home"] = "~/geomesa/geomesa-fs_2.11-{}".format(settings["geomesa_version"],)
-    # settings["spark_home"] = "~/geomesa/spark-{}-bin-hadoop2.7".format(settings["spark_version"],)
     settings["hdfs_path"] = "hdfs://127.0.0.1"
-
-    # # Geomesa FileStore Spark JAR file path
-    # settings["geomesa_fs_spark_jar"] = "file://{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
-    #     .format(settings["geomesa_fs_home"], settings["geomesa_version"])
 
     # date range of data to convert
     settings["start_date"] = "2017-05-01"
@@ -87,8 +107,6 @@ def main():
 
     settings["target_local_directory"] = "file://" + args.target_directory
 
-    # logger.info("Output directory is : {}".format(settings["target_local_directory"],))
-
     # number of reducers for GeoMesa ingest (determines how the reduce tasks get split up)
     settings["num_reducers"] = 16
 
@@ -101,10 +119,6 @@ def main():
                            AND _c40 > 112.8 AND _c40 < 154.0""".format(settings["input_view"],)
 
     # -----------------------------------------------------------------------------------------------------------------
-
-    # set path to GeoMesa FileSystem Datastore Spark JAR
-    settings["geomesa_fs_spark_jar"] = "{}/dist/spark/geomesa-fs-spark-runtime_2.11-{}.jar"\
-        .format(settings["geomesa_fs_home"], settings["geomesa_version"])
 
     # set S3 and HDFS paths - must use the s3a:// prefix for S3 files
     settings["source_s3_path"] = "s3a://{}/{}".format(settings["source_s3_bucket"], settings["source_s3_directory"])
@@ -128,32 +142,34 @@ def main():
 
     # logger.info("Geomesa ingest command : {}".format(settings["ingest_command_line"], ))
 
-    # 1 - create a Spark session
-    spark = get_spark_session(settings)
-    logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
+    # # 1 - create a Spark session
+    # spark = get_spark_session(settings)
 
-    # 2 - convert text files on S3 to GeoMesa parquet files on S3
+    # 3 - convert text files on S3 to GeoMesa parquet files on S3
     convert_to_geomesa_parquet(settings, spark)
 
-    # 3 - create a geomesa dataframe and run a spatial query on it
+    # 4 - create a geomesa dataframe and run a spatial query on it
     run_geomesa_query(settings, spark)
 
     spark.stop()
 
 
-def get_spark_session(settings):
-    # create the SparkSession
-    spark = SparkSession.builder \
-        .master("local") \
-        .appName("Geomesa conversion test") \
-        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-        .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
-        .config("spark.speculation", "false") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
-        .getOrCreate()
-
-    return spark
+# def get_spark_session(settings):
+#     # create the SparkSession
+#     spark = SparkSession.builder \
+#         .master("local") \
+#         .appName("Geomesa conversion test") \
+#         .config("spark.jars", "file:///Users/s57405/geomesa/geomesa-fs_2.11-2.0.2/dist/spark/geomesa-fs-spark-runtime_2.11-2.0.2.jar") \
+#         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+#         .config("spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version", "2") \
+#         .config("spark.speculation", "false") \
+#         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+#         .config("spark.kryo.registrator", "org.locationtech.geomesa.spark.GeoMesaSparkKryoRegistrator") \
+#         .getOrCreate()
+#
+#     logger.info("Pyspark session initiated : {}".format(datetime.datetime.now() - start_time,))
+#
+#     return spark
 
 
 def convert_to_geomesa_parquet(settings, spark):

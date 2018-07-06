@@ -2,8 +2,17 @@
 
 
 spark-submit --master local[4] \
---jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
 ~/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+
+
+
+spark-submit --master local[4] \
+--conf spark.executorEnv.GEOMESA_FS_HOME="${GEOMESA_FS_HOME}" \
+--conf spark.executorEnv.GEOMESA_VERSION="${GEOMESA_VERSION}" \
+~/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ~/tmp/geomesa_test
+
+
+
 
 
 spark-submit --master yarn \
@@ -15,3 +24,14 @@ spark-submit --master yarn \
 # check hadoop is ok
 $HADOOP_HOME/bin/hadoop fs -ls
 
+
+
+
+spark-submit --master local \
+--conf spark.executorEnv.GEOMESA_VERSION="${GEOMESA_VERSION}" \
+~/git/iag_geo/geomesa_tools/mac_installer/test.py
+
+
+
+
+--conf spark.executorEnv.GEOMESA_VERSION=hello \
