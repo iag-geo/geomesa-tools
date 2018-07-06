@@ -43,18 +43,18 @@ HADOOP_VERSION="2.7.6"
 SPARK_VERSION="2.2.1"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
-echo "export MAVEN_VERSION=${MAVEN_VERSION}" >> ${HOME}/.bash_profile
-echo "export GEOMESA_VERSION=${GEOMESA_VERSION}" >> ${HOME}/.bash_profile
-echo "export HADOOP_VERSION=${HADOOP_VERSION}" >> ${HOME}/.bash_profile
-echo "export SPARK_VERSION=${SPARK_VERSION}" >> ${HOME}/.bash_profile
+echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
+echo "export GEOMESA_VERSION=\"${GEOMESA_VERSION}\"" >> ${HOME}/.bash_profile
+echo "export HADOOP_VERSION=\"${HADOOP_VERSION}\"" >> ${HOME}/.bash_profile
+echo "export SPARK_VERSION=\"${SPARK_VERSION}\"" >> ${HOME}/.bash_profile
 
 # Java and Scala homes
 JAVA_HOME="/Library/Java/Home"
 SCALA_HOME="/usr/local/opt/scala@2.11"
 
 echo -e "\n# Java & Scala paths" >> ${HOME}/.bash_profile
-echo "export JAVA_HOME=${JAVA_HOME}" >> ${HOME}/.bash_profile
-echo "export SCALA_HOME=${SCALA_HOME}" >> ${HOME}/.bash_profile
+echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ${HOME}/.bash_profile
+echo "export SCALA_HOME=\"${SCALA_HOME}\"" >> ${HOME}/.bash_profile
 
 # Hadoop and Spark vars
 HADOOP_HOME="${HOME}/geomesa/hadoop-${HADOOP_VERSION}"
@@ -62,18 +62,18 @@ HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop"
 SPARK_HOME="${HOME}/geomesa/spark-${SPARK_VERSION}-bin-hadoop2.7"
 
 echo -e "\n# Hadoop and Spark vars" >> ${HOME}/.bash_profile
-echo "export HADOOP_HOME=${HADOOP_HOME}" >> ${HOME}/.bash_profile
-echo "export HADOOP_CONF_DIR=${HADOOP_CONF_DIR}" >> ${HOME}/.bash_profile
-echo "export SPARK_HOME=${SPARK_HOME}" >> ${HOME}/.bash_profile
+echo "export HADOOP_HOME=\"${HADOOP_HOME}\"" >> ${HOME}/.bash_profile
+echo "export HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> ${HOME}/.bash_profile
+echo "export SPARK_HOME=\"${SPARK_HOME}\"" >> ${HOME}/.bash_profile
 
 # Geomesa build and runtime vars
 GEOMESA_FS_HOME="${HOME}/geomesa/geomesa-fs_2.11-${GEOMESA_VERSION}"
 MAVEN_HOME="${HOME}/geomesa/apache-maven-${MAVEN_VERSION}/bin"
 
 echo -e "\n# Geomesa FileStore path" >> ${HOME}/.bash_profile
-echo "export GEOMESA_FS_HOME=${GEOMESA_FS_HOME}" >> ${HOME}/.bash_profile
+echo "export GEOMESA_FS_HOME=\"${GEOMESA_FS_HOME}\"" >> ${HOME}/.bash_profile
 echo -e "\n# maven home" >> ${HOME}/.bash_profile
-echo "export MAVEN_HOME=${MAVEN_HOME}" >> ${HOME}/.bash_profile
+echo "export MAVEN_HOME=\"${MAVEN_HOME}\"" >> ${HOME}/.bash_profile
 
 
 echo "-------------------------------------------------------------------------"
@@ -177,11 +177,11 @@ echo "-------------------------------------------------------------------------"
 echo "Starting Hadoop"
 echo "-------------------------------------------------------------------------"
 
-# initialise hadoop file store (HDFS)
+# initialise Hadoop file store (HDFS)
 cd ${HADOOP_HOME}
 bin/hdfs namenode -format
 
-# start hadoop
+# start Hadoop
 sbin/start-dfs.sh
 sbin/start-yarn.sh
 cd ${HOME}
@@ -189,7 +189,7 @@ cd ${HOME}
 # get HDFS path
 HDFS_PATH="$(${HADOOP_HOME}/bin/hdfs getconf -confKey fs.defaultFS)"
 echo -e "\n# local HDFS path (for temp files)" >> ${HOME}/.bash_profile
-echo "export HDFS_PATH=${HDFS_PATH}" >> ${HOME}/.bash_profile
+echo "export HDFS_PATH=\"${HDFS_PATH}\"" >> ${HOME}/.bash_profile
 
 echo -e "\n# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 echo "# GEOMESA SETTINGS - end" >> ${HOME}/.bash_profile
