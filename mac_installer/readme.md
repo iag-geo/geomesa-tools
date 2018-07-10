@@ -29,6 +29,9 @@ export AWS_SECRET_ACCESS_KEY=<yourSecretAccessKey>
 ```
 
 ### Step 2 - Install everything
+
+**Note:** The install process will add environment variables to your `~/.bash_profile` file and install Hadoop, Spark & GeoMesa into a new directory `~/geomesa`
+
 1. Open your preferred command line tool (Terminal, iTerm, emacs, etc...) and go to the directory containing this README
 1. Run `. install-geomesa.sh`
 1. You may be prompted to override your `id_rsa` SSH key file. Choose 'n' unless you have a reason to replace the key. Your choice won't affect the install script
