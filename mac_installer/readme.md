@@ -36,12 +36,16 @@ export AWS_SECRET_ACCESS_KEY=<yourSecretAccessKey>
 
 ### Step 3 - Do something with GeoMesa
 1. Go to the directory containing this README
-2. Run this command (takes 2-4 mins):
+1. Edit the following command for the path to the `geomesa_convert.py` file
+1. Run the command (takes 2-4 mins):
 
 ```bash
 spark-submit --master local[4] \
 --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
-geomesa_convert.py --target-directory ~/tmp/geomesa_test
+--conf spark.executorEnv.GEOMESA_FS_HOME=${GEOMESA_FS_HOME} \
+--conf spark.executorEnv.GEOMESA_VERSION=${GEOMESA_VERSION} \
+--conf spark.executorEnv.HDFS_PATH=${HDFS_PATH} \
+${HOME}/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ${HOME}/tmp/geomesa_test
 ```
 
 **If all goes well, the script will:**
@@ -58,7 +62,7 @@ To stop Hadoop, run these commands:
 cd ${HADOOP_HOME}
 sbin/stop-dfs.sh
 sbin/stop-yarn.sh
-cd ~
+cd ${HOME}
 ```
 
 To start Hadoop (e.g. after rebooting), run:
@@ -71,5 +75,5 @@ bin/hdfs namenode -format
 # start hadoop
 sbin/start-dfs.sh
 sbin/start-yarn.sh
-cd ~
+cd ${HOME}
 ```
