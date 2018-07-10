@@ -4,10 +4,16 @@ A set of tools for getting started with [GeoMesa](http://www.geomesa.org/)
 
 ## Install Guides
 
-Code and colour-by-numbers guides for installing and running Geomesa
+Code and (relatively) simple guides for installing & running Geomesa
 
-### EMR, S3, Spark & Python
-[Get a GeoMesa cluster running on AWS Elastic Map Reduce](https://github.com/iag-geo/geomesa-tools/tree/master/aws_emr_installer)
+### GeoMesa Cluster on AWS Elastic Map Reduce
 
-### GeoMesa Standalone
-[Get GeoMesa running standalone on your Mac](https://github.com/iag-geo/geomesa-tools/tree/master/mac_installer)
+Contains install scripts and a Python script for loading, converting & querying [GDELT](https://www.gdeltproject.org/) data in S3 using GeoMesa on Spark. Outputs data to your S3 bucket.
+
+[aws_emr_installer](https://github.com/iag-geo/geomesa-tools/tree/master/aws_emr_installer)
+
+### GeoMesa Standalone on Mac
+
+Similarly, contains install scripts and a Python script for loading, converting & querying GDELT data in S3 using GeoMesa on Spark. Outputs data to your local disk.
+
+[mac_installer](https://github.com/iag-geo/geomesa-tools/tree/master/mac_installer)
