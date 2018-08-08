@@ -164,15 +164,11 @@ def get_dataframe_and_view(settings, source_file_path, spark):
               delimiter=settings["source_delimiter"],
               header=settings["source_header"])
 
+    # format date string for conversation to date type
     from pyspark.sql import functions as F
-    # df3 = df2.withColumn('datetimeGMT', F.from_utc_timestamp(df2.datetimeGMT, "America/New_York"))
-
-    # df2 = input_data_frame.withColumn('datetimeGMT', input_data_frame._c6.cast('timestamp'))
-
     df2 = input_data_frame.withColumn("_c6", F.regexp_replace("_c6", "T", " "))
     df3 = df2.withColumn("_c6", F.regexp_replace("_c6", "Z", ""))
-
-    df3.show()
+    # df3.show()
 
     df3.createOrReplaceTempView(settings["input_view"])
 
