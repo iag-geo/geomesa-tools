@@ -39,8 +39,8 @@ echo "# -----------------------------------------------------------------------"
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
 MAVEN_VERSION="3.5.3"
 GEOMESA_VERSION="2.0.2"
-HADOOP_VERSION="2.7.6"
-SPARK_VERSION="2.2.1"
+HADOOP_VERSION="2.7.7"
+SPARK_VERSION="2.2.2"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
