@@ -68,7 +68,7 @@ def main():
     settings["sft_converter"] = "file://{}/speedband.conf".format(settings["home"],)
 
     # GeoMesa partition schema to use, note: leaf storage is set to true
-    settings["partition_schema"] = "daily,z2-4bit"
+    settings["partition_schema"] = "z2-4bit"
 
     # file format settings
     settings["source_format"] = "csv"
@@ -164,7 +164,17 @@ def get_dataframe_and_view(settings, source_file_path, spark):
               delimiter=settings["source_delimiter"],
               header=settings["source_header"])
 
-    input_data_frame.createOrReplaceTempView(settings["input_view"])
+    from pyspark.sql import functions as F
+    # df3 = df2.withColumn('datetimeGMT', F.from_utc_timestamp(df2.datetimeGMT, "America/New_York"))
+
+    # df2 = input_data_frame.withColumn('datetimeGMT', input_data_frame._c6.cast('timestamp'))
+
+    df2 = input_data_frame.withColumn("_c6", F.regexp_replace("_c6", "T", " "))
+    df3 = df2.withColumn("_c6", F.regexp_replace("_c6", "Z", ""))
+
+    df3.show()
+
+    df3.createOrReplaceTempView(settings["input_view"])
 
     logger.info("\t- view of input data created : {}".format(datetime.datetime.now() - start_time, ))
 
