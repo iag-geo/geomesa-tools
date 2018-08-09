@@ -30,6 +30,8 @@ ${HOME}/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-dire
 $HADOOP_HOME/bin/hadoop fs -ls
 
 
+# get AWS IAM user ID
+aws iam get-user --user-name USERNAME
 
 
 spark-submit --master local \
