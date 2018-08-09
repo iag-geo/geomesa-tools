@@ -26,8 +26,10 @@ spark-submit --master yarn \
 ${HOME}/git/iag_geo/geomesa_tools/mac_installer/geomesa_convert.py --target-directory ${HOME}/tmp/geomesa_test
 
 
-# check hadoop is ok
-$HADOOP_HOME/bin/hadoop fs -ls
+# check hadoop files
+$HADOOP_HOME/bin/hadoop fs -ls hdfs://127.0.0.1/user/temp/geomesa_ingest
+
+$HADOOP_HOME/bin/hadoop fs -cat hdfs://127.0.0.1/user/temp/geomesa_ingest/part-00000-637ad761-6e55-4143-8130-8f8e3ab56446-c000.csv | head
 
 
 # get AWS IAM user ID
