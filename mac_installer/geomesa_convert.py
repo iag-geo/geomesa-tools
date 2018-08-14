@@ -229,7 +229,7 @@ def convert_data_to_geomesa(settings):
         if line is not None and line != "":
             logger.warning(line)
 
-    logger.info("\t- data converted to GeoMesa parquet & written to S3 : {}"
+    logger.info("\t- data converted to GeoMesa parquet : {}"
                 .format(datetime.datetime.now() - start_time, ))
 
 
