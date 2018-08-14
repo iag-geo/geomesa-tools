@@ -261,6 +261,12 @@ def run_geomesa_query(settings, spark):
     # show the query results
     spark.sql(spatial_query).show()
 
+    # geomesa_data_frame.write \
+    #     .format("geomesa") \
+    #     .option("geomesa.feature", settings["geomesa_schema"]) \
+    #     .option("fs.path", settings["target_local_directory"] + "_fred") \
+    #     .save()
+
     logger.info("\t- query done : {}".format(datetime.datetime.now() - start_time, ))
 
     # remove data frame from cache (not sure if required to clean up memory)
