@@ -1,4 +1,4 @@
-package au.com.iag.dataeng;
+package au.com.iag.geo;
 
 import java.io.Serializable;
 import java.util.HashMap;

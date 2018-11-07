@@ -32,14 +32,27 @@ $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BROKERS --to
 
 
 
-
-
+########################################
+#
 # word count example
+#
+########################################
 
+# delete topics
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --delete --topic streams-plaintext-input
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --delete --topic streams-wordcount-output
+
+# stop Zookeeper and Kafka
+$KAFKA_HOME/bin/kafka-server-stop.sh
+$KAFKA_HOME/bin/zookeeper-server-stop.sh
+
+# start zookeeper and kafka
+$KAFKA_HOME/bin/zookeeper-server-start.sh -daemon $KAFKA_HOME/config/zookeeper.properties
+$KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties
 
 # create topics
-$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-plaintext-input --replication-factor 1 --partitions 3
-$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-wordcount-output --replication-factor 1 --partitions 3
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-plaintext-input --replication-factor 1 --partitions 1
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-wordcount-output --replication-factor 1 --partitions 1
 
 # create some data
 echo -e "all streams lead to kafka\nhello kafka streams\njoin kafka summit" > ~/tmp/file-input.txt
@@ -49,10 +62,11 @@ cat ~/tmp/file-input.txt | $KAFKA_HOME/bin/kafka-console-producer.sh --broker-li
 
 
 
-
-
-
-
+# consume output topic
+$KAFKA_HOME/bin/kafka-console-consumer.sh --topic streams-wordcount-output --from-beginning \
+                                          --bootstrap-server localhost:9092 \
+                                          --property print.key=true \
+                                          --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 
 
 
