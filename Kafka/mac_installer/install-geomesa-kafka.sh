@@ -16,6 +16,13 @@
 # record how long this script takes (6-10 mins with a good Internet connection)
 SECONDS=0
 
+echo "-------------------------------------------------------------------------"
+echo "Updating Homebrew and installing wget"
+echo "-------------------------------------------------------------------------"
+
+cd ~
+brew update
+
 # install wget for downloading files
 brew reinstall wget
 
@@ -46,7 +53,8 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Java 8"  # & Scala"
 echo "-------------------------------------------------------------------------"
 
-brew cask install java8
+# will require your password on install
+brew cask reinstall java8
 #brew install scala@${SCALA_VERSION}
 
 

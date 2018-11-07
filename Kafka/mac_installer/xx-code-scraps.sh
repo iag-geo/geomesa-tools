@@ -31,6 +31,9 @@ $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BROKERS --to
 
 
 
+
+
+
 # word count example
 
 
@@ -41,9 +44,8 @@ $KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-w
 # create some data
 echo -e "all streams lead to kafka\nhello kafka streams\njoin kafka summit" > ~/tmp/file-input.txt
 
-
 # add data to input topic
-cat "~/tmp/file-input.txt" | $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list $KAFKA_BROKERS --topic streams-plaintext-input
+cat ~/tmp/file-input.txt | $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list $KAFKA_BROKERS --topic streams-plaintext-input
 
 
 
