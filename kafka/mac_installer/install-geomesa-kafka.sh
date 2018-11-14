@@ -39,8 +39,8 @@ echo "# -----------------------------------------------------------------------"
 # set your version numbers here - IMPORTANT: you need to know which combinations are compatible
 MAVEN_VERSION="3.6.0"
 SCALA_VERSION="2.11"
-KAFKA_VERSION="2.0.0"
-GEOMESA_KAFKA_VERSION="2.0.2"
+KAFKA_VERSION="2.0.1"
+GEOMESA_KAFKA_VERSION="2.1.0"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
@@ -67,7 +67,7 @@ MAVEN_HOME="${INSTALL_DIR}/${MAVEN_FILENAME}/bin"
 echo -e "\n# maven home" >> ${HOME}/.bash_profile
 echo "export MAVEN_HOME=\"${MAVEN_HOME}\"" >> ${HOME}/.bash_profile
 
-wget "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_FILENAME}-bin.tar.gz"
+wget --quiet "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_FILENAME}-bin.tar.gz"
 tar xzf ${MAVEN_FILENAME}-bin.tar.gz
 rm ${MAVEN_FILENAME}-bin.tar.gz
 
@@ -85,7 +85,7 @@ echo "export KAFKA_HOME=\"${KAFKA_HOME}\"" >> ${HOME}/.bash_profile
 echo "export ZK_HOSTS=\"${ZK_HOSTS}\"" >> ${HOME}/.bash_profile
 echo "export KAFKA_BROKERS=\"${KAFKA_BROKERS}\"" >> ${HOME}/.bash_profile
 
-wget "http://apache.mirror.serversaustralia.com.au/kafka/${KAFKA_VERSION}/${KAFKA_FILENAME}.tgz"
+wget --quiet "http://apache.mirror.serversaustralia.com.au/kafka/${KAFKA_VERSION}/${KAFKA_FILENAME}.tgz"
 tar xzf ${KAFKA_FILENAME}.tgz
 rm ${KAFKA_FILENAME}.tgz
 
@@ -111,7 +111,7 @@ echo "export GEOMESA_KAFKA_HOME=\"${GEOMESA_KAFKA_HOME}\"" >> ${HOME}/.bash_prof
 echo "export GEOMESA_KAFKA_HOME=\"${GEOMESA_KAFKA_HOME}\"" >> ${HOME}/.bash_profile
 echo "export PATH=${PATH}:${GEOMESA_KAFKA_HOME}/bin" >> ${HOME}/.bash_profile
 
-wget "https://github.com/locationtech/geomesa/releases/download/geomesa_${SCALA_VERSION}-${GEOMESA_KAFKA_VERSION}/${GEOMESA_FILENAME}-bin.tar.gz"
+wget --quiet "https://github.com/locationtech/geomesa/releases/download/geomesa_${SCALA_VERSION}-${GEOMESA_KAFKA_VERSION}/${GEOMESA_FILENAME}-bin.tar.gz"
 tar xzf ${GEOMESA_FILENAME}-bin.tar.gz
 rm ${GEOMESA_FILENAME}-bin.tar.gz
 
