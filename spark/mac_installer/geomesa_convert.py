@@ -61,8 +61,8 @@ def main():
     # settings["hdfs_path"] = "hdfs://127.0.0.1"
 
     # date range of data to convert
-    settings["start_date"] = "2018-09-01"
-    settings["end_date"] = "2018-09-02"
+    settings["start_date"] = "2017-05-01"
+    settings["end_date"] = "2017-05-02"
 
     # name of the GeoMesa schema, aka feature name
     settings["geomesa_schema"] = "gdelt"
@@ -177,7 +177,7 @@ def convert_to_geomesa_parquet(settings, spark):
             .format(settings["source_s3_path"], yyyy_mm_dd[0], yyyy_mm_dd[1], yyyy_mm_dd[2],
                     settings["source_file_suffix"])
 
-        print(source_file_path)
+        # print(source_file_path)
 
         get_dataframe_and_view(settings, source_file_path, spark)
         filter_and_output_view(settings, spark)
