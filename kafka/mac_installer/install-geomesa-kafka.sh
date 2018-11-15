@@ -39,8 +39,8 @@ echo "# -----------------------------------------------------------------------"
 # set your version numbers here - IMPORTANT: you need to know which combinations are compatible
 MAVEN_VERSION="3.6.0"
 SCALA_VERSION="2.11"
-KAFKA_VERSION="2.0.1"
-GEOMESA_KAFKA_VERSION="2.1.0"
+KAFKA_VERSION="2.0.2"
+GEOMESA_KAFKA_VERSION="2.0.2"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
