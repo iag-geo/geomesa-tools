@@ -32,6 +32,13 @@ $HADOOP_HOME/bin/hadoop fs -ls hdfs://127.0.0.1/user/temp/geomesa_ingest
 $HADOOP_HOME/bin/hadoop fs -cat hdfs://127.0.0.1/user/temp/geomesa_ingest/part-00000-637ad761-6e55-4143-8130-8f8e3ab56446-c000.csv | head
 
 
+
+# check file exists in AWS
+aws --profile minus34 s3 cp s3://gdelt-open-data/events/20170501.export.csv ~/tmp
+
+s3://gdelt-open-data/events/20170501.export.csv
+s3://gdelt-open-data/events/20170501.export.csv
+
 # get AWS IAM user ID
 aws iam get-user --user-name USERNAME
 

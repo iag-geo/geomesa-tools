@@ -40,7 +40,7 @@ echo "# -----------------------------------------------------------------------"
 MAVEN_VERSION="3.6.0"
 GEOMESA_VERSION="2.1.0"
 HADOOP_VERSION="2.7.7"
-SPARK_VERSION="2.3.0"
+SPARK_VERSION="2.3.2"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile

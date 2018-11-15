@@ -4,9 +4,9 @@ A set of tools for getting started with [GeoMesa](http://www.geomesa.org/)
 
 ## Install Guides
 
-Code and (relatively) simple guides for installing & running Geomesa
+Code and (relatively) simple guides for installing & running GeoMesa
 
-### Geomesa Spark
+### GeoMesa Spark
 
 #### AWS Elastic Map Reduce Cluster
 
@@ -20,7 +20,7 @@ Similarly, contains install scripts and a Python script for loading, converting 
 
 [spark_mac_installer](https://github.com/iag-geo/geomesa-tools/tree/master/spark/mac_installer)
 
-### Geomesa Kafka
+### GeoMesa Kafka
 
 #### Standalone on Mac
 
