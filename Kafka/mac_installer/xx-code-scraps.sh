@@ -69,8 +69,36 @@ $KAFKA_HOME/bin/kafka-console-consumer.sh --topic streams-wordcount-output --fro
                                           --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 
 
+########################################
+#
+# Geomesa Kafka Tutorial
+#
+########################################
+
+# download repo and build
+cd /Users/hugh.saalmans/OneDrive/IdeaProjects/Geomesa
+
+git clone https://github.com/geomesa/geomesa-tutorials.git
+cd geomesa-tutorials
+git checkout tags/geomesa-tutorials-$GEOMESA_KAFKA_VERSION
+
+mvn clean install -pl geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart -am
+
+# start zookeeper and kafka
+$KAFKA_HOME/bin/zookeeper-server-start.sh -daemon $KAFKA_HOME/config/zookeeper.properties
+$KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties
+
+# run tutorial
+cd geomesa-tutorials-kafka
 
 
+#/Users/hugh.saalmans/OneDrive/IdeaProjects/Geomesa/geomesa-tutorials/geomesa-tutorials-kafka/geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-2.0.2.jar
+
+java -cp geomesa-tutorials-kafka-quickstart/target/geomesa-tutorials-kafka-quickstart-$GEOMESA_KAFKA_VERSION.jar \
+    org.geomesa.example.kafka.KafkaQuickStart \
+    --kafka.brokers $KAFKA_BROKERS \
+    --kafka.zookeepers $ZK_HOSTS \
+    --cleanup
 
 
 

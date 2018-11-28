@@ -63,9 +63,11 @@ echo "Installing Maven"
 echo "-------------------------------------------------------------------------"
 
 MAVEN_FILENAME=apache-maven-${MAVEN_VERSION}
-MAVEN_HOME="${INSTALL_DIR}/${MAVEN_FILENAME}/bin"
+MAVEN_HOME="${INSTALL_DIR}/${MAVEN_FILENAME}"
 echo -e "\n# maven home" >> ${HOME}/.bash_profile
 echo "export MAVEN_HOME=\"${MAVEN_HOME}\"" >> ${HOME}/.bash_profile
+echo "export PATH=${PATH}:${MAVEN_HOME}/bin" >> ${HOME}/.bash_profile
+
 
 wget "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_FILENAME}-bin.tar.gz"
 tar xzf ${MAVEN_FILENAME}-bin.tar.gz
