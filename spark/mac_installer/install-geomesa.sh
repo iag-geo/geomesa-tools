@@ -25,7 +25,7 @@ echo | ssh-keygen -t rsa -P ""
 cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
 
 # install wget for downloading files
-brew install wget
+brew reinstall wget
 
 # create new directory to install Spark, Hadoop and Geomesa in
 mkdir ${HOME}/geomesa
@@ -37,7 +37,7 @@ echo "# GEOMESA SETTINGS - start" >> ${HOME}/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
-MAVEN_VERSION="3.5.4"
+MAVEN_VERSION="3.6.0"
 GEOMESA_VERSION="2.0.2"
 HADOOP_VERSION="2.7.7"
 SPARK_VERSION="2.2.2"
@@ -80,7 +80,7 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 
-brew cask install java8
+brew cask reinstall java8
 brew install scala@2.11
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
@@ -90,7 +90,7 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Hadoop"
 echo "-------------------------------------------------------------------------"
 
-wget http://apache.mirror.amaze.com.au/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
+wget --quiet http://apache.mirror.amaze.com.au/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
 tar xzf hadoop-${HADOOP_VERSION}.tar.gz
 rm hadoop-${HADOOP_VERSION}.tar.gz
 
@@ -111,14 +111,14 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Spark"
 echo "-------------------------------------------------------------------------"
 
-wget http://apache.mirror.amaze.com.au/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
+wget --quiet http://apache.mirror.amaze.com.au/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 tar -xzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 
 # add required jar files
 cd ${SPARK_HOME}/jars
 cp ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-${HADOOP_VERSION}.jar .
-wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
+wget --quiet http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
 
 # reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages) - to avoid the default belch of logging
 cp ${SPARK_HOME}/conf/log4j.properties.template ${SPARK_HOME}/conf/log4j.properties
@@ -131,7 +131,7 @@ echo "-------------------------------------------------------------------------"
 echo "Installing GeoMesa FileSystem Datastore"
 echo "-------------------------------------------------------------------------"
 
-wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-${GEOMESA_VERSION}/geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz"
+wget --quiet "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-${GEOMESA_VERSION}/geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz"
 tar xzf geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 
@@ -143,7 +143,7 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Maven"
 echo "-------------------------------------------------------------------------"
 
-wget "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+wget --quiet "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz
 rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
@@ -152,7 +152,7 @@ echo "-------------------------------------------------------------------------"
 echo "Downloading GeoMesa Source Code"
 echo "-------------------------------------------------------------------------"
 
-wget "https://github.com/locationtech/geomesa/archive/geomesa_2.11-${GEOMESA_VERSION}.tar.gz"
+wget --quiet "https://github.com/locationtech/geomesa/archive/geomesa_2.11-${GEOMESA_VERSION}.tar.gz"
 tar xzf geomesa_2.11-${GEOMESA_VERSION}.tar.gz
 rm geomesa_2.11-${GEOMESA_VERSION}.tar.gz
 
