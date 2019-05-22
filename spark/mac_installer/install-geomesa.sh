@@ -93,7 +93,7 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Hadoop"
 echo "-------------------------------------------------------------------------"
 
-wget --quiet http://apache.mirror.amaze.com.au/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
+wget https://archive.apache.org/dist/hadoop/core//hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
 tar xzf hadoop-${HADOOP_VERSION}.tar.gz
 rm hadoop-${HADOOP_VERSION}.tar.gz
 
