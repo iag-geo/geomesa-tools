@@ -6,8 +6,7 @@ spark-submit --master local[4] \
 --conf spark.executorEnv.GEOMESA_FS_HOME=${GEOMESA_FS_HOME} \
 --conf spark.executorEnv.GEOMESA_VERSION=${GEOMESA_VERSION} \
 --conf spark.executorEnv.HDFS_PATH=${HDFS_PATH} \
-${HOME}/git/iag_geo/geomesa_tools/spark/mac_installer/geomesa_convert.py --target-directory ${HOME}/tmp/geomesa_test
-
+${HOME}/git/iag_geo/geomesa_tools/spark/mac_installer/install-geomesa.sh --target-directory ${HOME}/tmp/geomesa_test
 
 
 spark-submit --master local[4] \
