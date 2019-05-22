@@ -37,7 +37,8 @@ def main():
                     'using Pyspark on a standalone instance')
 
     parser.add_argument(
-        '--target-directory', help='A local directory for the output GeoMesa Parquet files')
+        '--target-directory', help='A local directory for the output GeoMesa Parquet files',
+        default='/Users/s57405/tmp/geomesa_test')
 
     args = parser.parse_args()
 

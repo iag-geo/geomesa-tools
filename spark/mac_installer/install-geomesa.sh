@@ -37,10 +37,11 @@ echo "# GEOMESA SETTINGS - start" >> ${HOME}/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
-MAVEN_VERSION="3.6.0"
-GEOMESA_VERSION="2.0.2"
-HADOOP_VERSION="2.7.7"
-SPARK_VERSION="2.2.2"
+MAVEN_VERSION="3.6.1"
+GEOMESA_VERSION="2.3.0"
+HADOOP_VERSION="2.7.3"
+SPARK_VERSION="2.3.3"
+AWS_JAVA_SDK_VERSION="1.7.4"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
@@ -81,9 +82,11 @@ echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 
 brew cask reinstall java8
-brew install scala@2.11
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
+brew reinstall scala@2.11
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pyspark
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pyspark-stubs
+#/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade py4j
 
 
 echo "-------------------------------------------------------------------------"
@@ -118,7 +121,7 @@ rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 # add required jar files
 cd ${SPARK_HOME}/jars
 cp ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-${HADOOP_VERSION}.jar .
-wget --quiet http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
+wget --quiet http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar
 
 # reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages) - to avoid the default belch of logging
 cp ${SPARK_HOME}/conf/log4j.properties.template ${SPARK_HOME}/conf/log4j.properties
@@ -170,7 +173,7 @@ ${MAVEN_HOME}/mvn clean install -D skipTests -P python > ${HOME}/geomesa/maven_g
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz
 
 
 echo "-------------------------------------------------------------------------"
