@@ -39,7 +39,7 @@ echo "# -----------------------------------------------------------------------"
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
 MAVEN_VERSION="3.6.1"
 GEOMESA_VERSION="2.3.0"
-HADOOP_VERSION="2.7.3"
+HADOOP_VERSION="2.7.7"
 SPARK_VERSION="2.3.3"
 AWS_JAVA_SDK_VERSION="1.7.4"
 
@@ -83,17 +83,18 @@ echo "-------------------------------------------------------------------------"
 
 brew cask reinstall java8
 brew reinstall scala@2.11
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pyspark
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pyspark-stubs
-#/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade py4j
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade pip
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade pyspark
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade pyspark-stubs
+#/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade py4j
 
 
 echo "-------------------------------------------------------------------------"
 echo "Installing Hadoop"
 echo "-------------------------------------------------------------------------"
 
-wget https://archive.apache.org/dist/hadoop/core//hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
+#wget https://archive.apache.org/dist/hadoop/core//hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
+wget http://apache.mirror.amaze.com.au/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
 tar xzf hadoop-${HADOOP_VERSION}.tar.gz
 rm hadoop-${HADOOP_VERSION}.tar.gz
 
@@ -173,7 +174,7 @@ ${MAVEN_HOME}/mvn clean install -D skipTests -P python > ${HOME}/geomesa/maven_g
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz
 
 
 echo "-------------------------------------------------------------------------"

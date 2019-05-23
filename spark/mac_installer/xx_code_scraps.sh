@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 
 
+# stop Hadoop + YARN
+cd ${HADOOP_HOME}
+sbin/stop-dfs.sh
+sbin/stop-yarn.sh
+cd ${HOME}
+
+
+
+# start Hadoop + YARN
+cd ${HADOOP_HOME}
+sbin/start-dfs.sh
+sbin/start-yarn.sh
+cd ${HOME}
+
+
 spark-submit --master local[4] \
 --jars $GEOMESA_FS_HOME/dist/spark/geomesa-fs-spark-runtime_2.11-$GEOMESA_VERSION.jar \
 --conf spark.executorEnv.GEOMESA_FS_HOME=${GEOMESA_FS_HOME} \
