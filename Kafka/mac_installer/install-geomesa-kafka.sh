@@ -39,7 +39,7 @@ echo "# -----------------------------------------------------------------------"
 # set your version numbers here - IMPORTANT: you need to know which combinations are compatible
 MAVEN_VERSION="3.6.0"
 SCALA_VERSION="2.11"
-KAFKA_VERSION="2.0.1"
+KAFKA_VERSION="2.0.2"
 GEOMESA_KAFKA_VERSION="2.0.2"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
@@ -80,8 +80,8 @@ echo "-------------------------------------------------------------------------"
 
 KAFKA_FILENAME=kafka_${SCALA_VERSION}-${KAFKA_VERSION}
 KAFKA_HOME="${INSTALL_DIR}/${KAFKA_FILENAME}"
-ZK_HOSTS=localhost:2181
-KAFKA_BROKERS=localhost:9092
+ZK_HOSTS=127.0.0.1:2181
+KAFKA_BROKERS=127.0.0.1:9092
 echo -e "\n# Kafka vars" >> ${HOME}/.bash_profile
 echo "export KAFKA_HOME=\"${KAFKA_HOME}\"" >> ${HOME}/.bash_profile
 echo "export ZK_HOSTS=\"${ZK_HOSTS}\"" >> ${HOME}/.bash_profile
