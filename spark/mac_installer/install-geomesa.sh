@@ -99,7 +99,7 @@ if [ ! -f hadoop-${HADOOP_VERSION}.tar.gz ]; then
     wget http://apache.mirror.amaze.com.au/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
 fi
 tar xzf hadoop-${HADOOP_VERSION}.tar.gz
-rm hadoop-${HADOOP_VERSION}.tar.gz
+#rm hadoop-${HADOOP_VERSION}.tar.gz
 
 # configure Hadoop environment
 sed -i -e "s%export HADOOP_OPTS=\"\${HADOOP_OPTS} -Djava.net.preferIPv4Stack=true\"%export HADOOP_OPTS=\"\${HADOOP_OPTS} -Djava.net.preferIPv4Stack=true -Djava.security.krb5.realm= -Djava.security.krb5.kdc=\"%g" ${HADOOP_CONF_DIR}/hadoop-env.sh
@@ -122,7 +122,7 @@ if [ ! -f spark-${SPARK_VERSION}-bin-hadoop2.7.tgz ]; then
     wget http://apache.mirror.amaze.com.au/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 fi
 tar -xzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
-rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
+#rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 
 # add required jar files
 if [ ! -f aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar ]; then
@@ -149,7 +149,7 @@ if [ ! -f geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz ]; then
     wget "https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-${GEOMESA_VERSION}/geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz"
 fi
 tar xzf geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
-rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
+#rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 
 # copy JAR file to allow Geomesa FS to support Snappy compression
 cp ${SPARK_HOME}/jars/snappy-java-1.1.2.6.jar ${GEOMESA_FS_HOME}/lib
@@ -163,7 +163,7 @@ if [ ! -f apache-maven-${MAVEN_VERSION}-bin.tar.gz ]; then
     wget "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 fi
 tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz
-rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
+#rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
 
 echo "-------------------------------------------------------------------------"
@@ -174,7 +174,7 @@ if [ ! -f geomesa_2.11-${GEOMESA_VERSION}.tar.gz ]; then
     wget "https://github.com/locationtech/geomesa/archive/geomesa_2.11-${GEOMESA_VERSION}.tar.gz"
 fi
 tar xzf geomesa_2.11-${GEOMESA_VERSION}.tar.gz
-rm geomesa_2.11-${GEOMESA_VERSION}.tar.gz
+#rm geomesa_2.11-${GEOMESA_VERSION}.tar.gz
 
 # copy license info to geomesa-spark directory to enable maven build
 cd ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark
