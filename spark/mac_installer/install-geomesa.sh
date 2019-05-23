@@ -128,9 +128,8 @@ tar -xzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 if [ ! -f aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar ]; then
     wget http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar
 fi
-
 cd ${SPARK_HOME}/jars
-cp aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar .
+cp ${HOME}/geomesa/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar .
 cp ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-${HADOOP_VERSION}.jar .
 
 
