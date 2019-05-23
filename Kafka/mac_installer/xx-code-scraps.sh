@@ -51,8 +51,8 @@ $KAFKA_HOME/bin/zookeeper-server-start.sh -daemon $KAFKA_HOME/config/zookeeper.p
 $KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties
 
 # create topics
-$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper $ZK_HOSTS --replication-factor 1 --partitions 1 --topic streams-plaintext-input
-$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper $ZK_HOSTS --replication-factor 1 --partitions 1 --topic streams-wordcount-output --config cleanup.policy=compact
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-plaintext-input --replication-factor 1 --partitions 1
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper $ZK_HOSTS --create --topic streams-wordcount-output --replication-factor 1 --partitions 1
 
 # create some data
 echo -e "all streams lead to kafka\nhello kafka streams\njoin kafka summit" > ~/tmp/file-input.txt
