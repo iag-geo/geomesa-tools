@@ -11,8 +11,6 @@
 # Copyright:
 #  - Code is copyright IAG - licensed under an Apache License, version 2.0
 #
-# IMPORTANT: requires Python 2.7.15 to avoid TLS issue with pypi
-#
 # May require 127.0.0.1	localhost to be added to your /etc/hosts file
 #
 #----------------------------------------------------------------------------------------------------------------------
@@ -24,8 +22,6 @@ SECONDS=0
 echo | ssh-keygen -t rsa -P ""
 cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
 
-# install wget for downloading files
-brew reinstall wget
 
 # create new directory to install Spark, Hadoop and Geomesa in
 mkdir ${HOME}/geomesa
@@ -37,10 +33,10 @@ echo "# GEOMESA SETTINGS - start" >> ${HOME}/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
-MAVEN_VERSION="3.6.0"
-GEOMESA_VERSION="2.0.2"
+MAVEN_VERSION="3.6.3"
+GEOMESA_VERSION="2.3.2"
 HADOOP_VERSION="2.7.7"
-SPARK_VERSION="2.2.2"
+SPARK_VERSION="2.4.5"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
@@ -49,7 +45,7 @@ echo "export HADOOP_VERSION=\"${HADOOP_VERSION}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_VERSION=\"${SPARK_VERSION}\"" >> ${HOME}/.bash_profile
 
 # Java and Scala homes
-JAVA_HOME="/Library/Java/Home"
+JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
 SCALA_HOME="/usr/local/opt/scala@2.11"
 
 echo -e "\n# Java & Scala paths" >> ${HOME}/.bash_profile
@@ -65,6 +61,8 @@ echo -e "\n# Hadoop and Spark vars" >> ${HOME}/.bash_profile
 echo "export HADOOP_HOME=\"${HADOOP_HOME}\"" >> ${HOME}/.bash_profile
 echo "export HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_HOME=\"${SPARK_HOME}\"" >> ${HOME}/.bash_profile
+echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
+
 
 # Geomesa build and runtime vars
 GEOMESA_FS_HOME="${HOME}/geomesa/geomesa-fs_2.11-${GEOMESA_VERSION}"
@@ -75,15 +73,19 @@ echo "export GEOMESA_FS_HOME=\"${GEOMESA_FS_HOME}\"" >> ${HOME}/.bash_profile
 echo -e "\n# maven home" >> ${HOME}/.bash_profile
 echo "export MAVEN_HOME=\"${MAVEN_HOME}\"" >> ${HOME}/.bash_profile
 
+# install wget for downloading files
+brew install wget
 
 echo "-------------------------------------------------------------------------"
 echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 
-brew cask reinstall java8
+brew tap AdoptOpenJDK/openjdk
+brew cask install adoptopenjdk8  # requires user password
 brew install scala@2.11
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install --upgrade pip
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install py4j
+
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip --user
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install py4j --user
 
 
 echo "-------------------------------------------------------------------------"
@@ -136,7 +138,7 @@ tar xzf geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 
 # copy JAR file to allow Geomesa FS to support Snappy compression
-cp ${SPARK_HOME}/jars/snappy-java-1.1.2.6.jar ${GEOMESA_FS_HOME}/lib
+cp ${SPARK_HOME}/jars/snappy-java-1.1.7.3.jar ${GEOMESA_FS_HOME}/lib
 
 
 echo "-------------------------------------------------------------------------"
@@ -164,13 +166,13 @@ cp -R ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/build ./build/
 echo "-------------------------------------------------------------------------"
 echo "Building GeoMesa Spark (2-5 mins)"
 echo "-------------------------------------------------------------------------"
-${MAVEN_HOME}/mvn clean install -D skipTests -P python > ${HOME}/geomesa/maven_geomesa_spark_build.log
+${MAVEN_HOME}/mvn clean install -T8 -DskipTests -P python > ${HOME}/geomesa/maven_geomesa_spark_build.log
 
 
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz --user
 
 
 echo "-------------------------------------------------------------------------"
