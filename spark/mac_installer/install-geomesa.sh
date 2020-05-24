@@ -45,7 +45,7 @@ echo "export HADOOP_VERSION=\"${HADOOP_VERSION}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_VERSION=\"${SPARK_VERSION}\"" >> ${HOME}/.bash_profile
 
 # Java and Scala homes
-JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home"
 SCALA_HOME="/usr/local/opt/scala@2.11"
 
 echo -e "\n# Java & Scala paths" >> ${HOME}/.bash_profile
@@ -82,9 +82,11 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Java 8, Scala 2.11 and Python modules"
 echo "-------------------------------------------------------------------------"
 
-brew tap AdoptOpenJDK/openjdk
-brew cask install adoptopenjdk8  # requires user password
-brew install scala@2.11
+echo "Need to install Oracle JDK 8 manually"
+
+#brew tap AdoptOpenJDK/openjdk
+#brew cask install adoptopenjdk8-openj9  # requires user password
+brew reinstall scala@2.11
 
 /Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip --user
 /Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install py4j --user
@@ -140,7 +142,7 @@ tar xzf geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 rm geomesa-fs_2.11-${GEOMESA_VERSION}-bin.tar.gz
 
 # copy JAR file to allow Geomesa FS to support Snappy compression
-cp ${SPARK_HOME}/jars/snappy-java-1.1.7.3.jar ${GEOMESA_FS_HOME}/lib
+cp ${SPARK_HOME}/jars/snappy-java-1.1.2.6.jar ${GEOMESA_FS_HOME}/lib
 
 
 echo "-------------------------------------------------------------------------"
