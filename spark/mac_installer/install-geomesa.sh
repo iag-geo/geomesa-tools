@@ -33,7 +33,7 @@ echo "# GEOMESA SETTINGS - start" >> ${HOME}/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
-MAVEN_VERSION="3.6.0"
+MAVEN_VERSION="3.6.3"
 GEOMESA_VERSION="2.0.2"
 HADOOP_VERSION="2.7.7"
 SPARK_VERSION="2.2.3"
