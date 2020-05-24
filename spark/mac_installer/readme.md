@@ -20,6 +20,7 @@ It's been tested on Catalina (macOS v10.15).
 On your Mac:
 1. Go to [python.org](https://www.python.org/downloads/mac-osx/) and download the **macOS 64-bit installer** for the latest Python 3.x version
 1. Install Python 3 to the default directory (e.g. `/Library/Frameworks/Python.framework/Versions/3.7`)
+1. Install Oracle Java 8 JDK from the [Oracle website](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html) (will require you to sign up). The Open JDK version is untested.
 1. Enable Remote Login on your Mac: go to **System Preferences > Sharing** and Check the *Remote Login* box. This will enable remoting into Hadoop using SSH.
 1. Make a backup copy of your `~./bash_profile` file. Then edit the original version and add your AWS keys to enable access to the GDELT data on S3:
 
@@ -35,7 +36,6 @@ export AWS_SECRET_ACCESS_KEY=<yourSecretAccessKey>
 1. Open your preferred command line tool (Terminal, iTerm, emacs, etc...) and go to the directory containing this README
 1. Run `. install-geomesa.sh`
 1. You may be prompted to override your `id_rsa` SSH key file. Choose 'n' unless you have a reason to replace the key. Your choice won't affect the install script
-1. You may be prompted to enter your Mac login password during the Java 8 install/reinstall
 1. Wait 4-10 mins depending on your Internet connection and check the on-screen log and the GeoMesa Spark build log for success `~/geomesa/maven_geomesa_spark_build.log`
 
 ### Step 3 - Do something with GeoMesa
@@ -89,3 +89,7 @@ cd ${HADOOP_HOME}
 bin/hdfs namenode -format
 ```
 Note: you'll be prompted to confirm.
+
+## Hadoop Data
+
+The Hadoop data is stored in this directory. You can delete it, if wanted, after stopping Hadoop: `/tmp`
