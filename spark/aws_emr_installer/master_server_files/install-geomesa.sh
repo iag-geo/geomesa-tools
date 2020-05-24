@@ -31,6 +31,7 @@ cd ~
 
 echo -e "\n# Pyspark paths" >> .bashrc
 echo "export SPARK_HOME=/usr/lib/spark" >> .bashrc
+echo "export PYSPARK_PYTHON=/usr/bin/python3" >> .bashrc
 source .bashrc
 
 #echo "export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.4-src.zip" >> .bashrc
@@ -45,7 +46,7 @@ echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> .bashrc
 
 echo -e "\n# GeoMesa variables" >> .bashrc
 echo "export GEOMESA_VERSION=2.3.2" >> .bashrc
-echo "export MAVEN_VERSION=3.5.3" >> .bashrc
+echo "export MAVEN_VERSION=3.6.3" >> .bashrc
 source .bashrc
 
 # set Hadoop environment
@@ -100,7 +101,7 @@ mvn clean install -D skipTests -P python > ~/maven_geomesa_spark_build.log
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-sudo pip install /home/hadoop/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
+sudo pip3 install /home/hadoop/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
 cd ~
 
