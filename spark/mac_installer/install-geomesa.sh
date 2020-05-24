@@ -33,10 +33,10 @@ echo "# GEOMESA SETTINGS - start" >> ${HOME}/.bash_profile
 echo "# -----------------------------------------------------------------------" >> ${HOME}/.bash_profile
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
-MAVEN_VERSION="3.6.3"
+MAVEN_VERSION="3.6.0"
 GEOMESA_VERSION="2.0.2"
 HADOOP_VERSION="2.7.7"
-SPARK_VERSION="2.3.4"
+SPARK_VERSION="2.2.3"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
@@ -61,7 +61,7 @@ echo -e "\n# Hadoop and Spark vars" >> ${HOME}/.bash_profile
 echo "export HADOOP_HOME=\"${HADOOP_HOME}\"" >> ${HOME}/.bash_profile
 echo "export HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_HOME=\"${SPARK_HOME}\"" >> ${HOME}/.bash_profile
-echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
+#echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
 
 echo "PATH=\"${SPARK_HOME}/bin:\${PATH}\"" >> ${HOME}/.bash_profile
 echo "export PATH" >> ${HOME}/.bash_profile
@@ -88,8 +88,8 @@ echo "Need to install Oracle JDK 8 manually"
 #brew cask install adoptopenjdk8-openj9  # requires user password
 brew reinstall scala@2.11
 
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip --user
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install py4j --user
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade pip --user
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install py4j --user
 
 
 echo "-------------------------------------------------------------------------"
@@ -117,7 +117,9 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Spark"
 echo "-------------------------------------------------------------------------"
 
-wget --quiet http://apache.mirror.amaze.com.au/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
+#https://archive.apache.org/dist/spark/spark-2.2.3/spark-2.2.3-bin-hadoop2.7.tgz
+
+wget --quiet https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 tar -xzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 
@@ -149,7 +151,9 @@ echo "-------------------------------------------------------------------------"
 echo "Installing Maven"
 echo "-------------------------------------------------------------------------"
 
-wget --quiet "http://mirror.olnevhost.net/pub/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+#https://archive.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+
+wget --quiet "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 tar xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz
 rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
@@ -176,7 +180,7 @@ ${MAVEN_HOME}/mvn clean install -T8 -DskipTests -Ppython > ${HOME}/geomesa/maven
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz --user
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz --user
 
 
 echo "-------------------------------------------------------------------------"
