@@ -34,9 +34,9 @@ echo "# -----------------------------------------------------------------------"
 
 # set your preferred version numbers here - IMPORTANT: before editing - you need to know which combinations are compatible
 MAVEN_VERSION="3.6.3"
-GEOMESA_VERSION="2.3.2"
+GEOMESA_VERSION="2.0.2"
 HADOOP_VERSION="2.7.7"
-SPARK_VERSION="2.4.5"
+SPARK_VERSION="2.3.4"
 
 echo -e "\n# version numbers" >> ${HOME}/.bash_profile
 echo "export MAVEN_VERSION=\"${MAVEN_VERSION}\"" >> ${HOME}/.bash_profile
@@ -63,6 +63,8 @@ echo "export HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_HOME=\"${SPARK_HOME}\"" >> ${HOME}/.bash_profile
 echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
 
+echo "PATH=\"${SPARK_HOME}/bin:\${PATH}\"" >> ${HOME}/.bash_profile
+echo "export PATH" >> ${HOME}/.bash_profile
 
 # Geomesa build and runtime vars
 GEOMESA_FS_HOME="${HOME}/geomesa/geomesa-fs_2.11-${GEOMESA_VERSION}"
@@ -120,7 +122,7 @@ rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 # add required jar files
 cd ${SPARK_HOME}/jars
 cp ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-${HADOOP_VERSION}.jar .
-wget --quiet http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
+wget --quiet http://www.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar
 
 # reduce Spark logging to warnings and above (i.e no INFO or DEBUG messages) - to avoid the default belch of logging
 cp ${SPARK_HOME}/conf/log4j.properties.template ${SPARK_HOME}/conf/log4j.properties
@@ -166,7 +168,7 @@ cp -R ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/build ./build/
 echo "-------------------------------------------------------------------------"
 echo "Building GeoMesa Spark (2-5 mins)"
 echo "-------------------------------------------------------------------------"
-${MAVEN_HOME}/mvn clean install -T8 -DskipTests -P python > ${HOME}/geomesa/maven_geomesa_spark_build.log
+${MAVEN_HOME}/mvn clean install -T8 -DskipTests -Ppython > ${HOME}/geomesa/maven_geomesa_spark_build.log
 
 
 echo "-------------------------------------------------------------------------"
