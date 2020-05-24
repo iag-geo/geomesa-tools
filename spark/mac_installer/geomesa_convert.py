@@ -225,7 +225,7 @@ def convert_data_to_geomesa(settings):
     logger.info("\t- start GeoMesa ingest")
 
     # run GeoMesa command-line ingest
-    result = check_output(settings["ingest_command_line"], shell=True).split("\n")
+    result = check_output(settings["ingest_command_line"], shell=True).decode("utf-8").split("\n")
 
     # log any output - no output=all good!
     for line in result:

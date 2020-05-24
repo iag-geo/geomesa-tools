@@ -12,13 +12,13 @@ This guide & code will deploy the following stack on your Mac:
 - GeoMesa FileSystem Datastore
 - GeoMesa Spark & PySpark
 
-It's been tested on High Sierra (MacOS v10.13).
+It's been tested on Catalina (macOS v10.15).
 
 ## Install Process
 
 ### Step 1 - Pre-requisites
 On your Mac:
-1. Go to [python.org](https://www.python.org/downloads/mac-osx/) and download the **macOS 64-bit installer** for the latest Python 2.7.x version *(2.7.15 or higher is required to avoid the TLS issue with [PyPI](https://pypi.org/))*
+1. Go to [python.org](https://www.python.org/downloads/mac-osx/) and download the **macOS 64-bit installer** for the latest Python 3.x version
 1. Install Python 3 to the default directory (e.g. `/Library/Frameworks/Python.framework/Versions/3.7`)
 1. Enable Remote Login on your Mac: go to **System Preferences > Sharing** and Check the *Remote Login* box. This will enable remoting into Hadoop using SSH.
 1. Make a backup copy of your `~./bash_profile` file. Then edit the original version and add your AWS keys to enable access to the GDELT data on S3:

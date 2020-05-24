@@ -61,7 +61,7 @@ echo -e "\n# Hadoop and Spark vars" >> ${HOME}/.bash_profile
 echo "export HADOOP_HOME=\"${HADOOP_HOME}\"" >> ${HOME}/.bash_profile
 echo "export HADOOP_CONF_DIR=\"${HADOOP_CONF_DIR}\"" >> ${HOME}/.bash_profile
 echo "export SPARK_HOME=\"${SPARK_HOME}\"" >> ${HOME}/.bash_profile
-#echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
+echo "export PYSPARK_PYTHON=python3" >> ${HOME}/.bash_profile
 
 echo "PATH=\"${SPARK_HOME}/bin:\${PATH}\"" >> ${HOME}/.bash_profile
 echo "export PATH" >> ${HOME}/.bash_profile
@@ -88,8 +88,8 @@ echo "Need to install Oracle JDK 8 manually"
 #brew cask install adoptopenjdk8-openj9  # requires user password
 brew reinstall scala@2.11
 
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install --upgrade pip --user
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install py4j --user
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip --user
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install py4j --user
 
 
 echo "-------------------------------------------------------------------------"
@@ -180,7 +180,7 @@ ${MAVEN_HOME}/mvn clean install -T8 -DskipTests -Ppython > ${HOME}/geomesa/maven
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz --user
+/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install ${HOME}/geomesa/geomesa-geomesa_2.11-${GEOMESA_VERSION}/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-${GEOMESA_VERSION}.tar.gz --user
 
 
 echo "-------------------------------------------------------------------------"
