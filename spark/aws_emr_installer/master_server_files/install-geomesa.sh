@@ -45,7 +45,7 @@ TEMP_HDFS_PATH="$(hdfs getconf -confKey fs.defaultFS)"
 echo "export HDFS_PATH=${TEMP_HDFS_PATH}" >> .bashrc
 
 echo -e "\n# GeoMesa variables" >> .bashrc
-echo "export GEOMESA_VERSION=2.3.2" >> .bashrc
+echo "export GEOMESA_VERSION=2.0.2" >> .bashrc
 echo "export MAVEN_VERSION=3.6.3" >> .bashrc
 source .bashrc
 
@@ -101,7 +101,7 @@ mvn clean install -D skipTests -P python > ~/maven_geomesa_spark_build.log
 echo "-------------------------------------------------------------------------"
 echo "Installing geomesa_pyspark"
 echo "-------------------------------------------------------------------------"
-sudo pip3 install /home/hadoop/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
+sudo pip install /home/hadoop/geomesa-geomesa_2.11-$GEOMESA_VERSION/geomesa-spark/geomesa_pyspark/target/geomesa_pyspark-$GEOMESA_VERSION.tar.gz
 
 cd ~
 
